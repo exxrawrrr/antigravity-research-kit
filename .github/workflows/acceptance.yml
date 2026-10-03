@@ -1,0 +1,115 @@
+name: clean-windows-acceptance
+
+on:
+  push:
+    branches:
+      - phase/05-release-candidate
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  fresh-windows:
+    runs-on: windows-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Host baseline
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Write-Host "OS=$([System.Environment]::OSVersion.VersionString)"
+          Write-Host "PS=$($PSVersionTable.PSVersion)"
+          winget --version
+
+      - name: Static validation
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Get-ChildItem installer,release -Recurse -Filter *.ps1 | ForEach-Object {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName,[ref]$tokens,[ref]$errors) | Out-Null
+            if ($errors.Count) { throw "$($_.FullName): $($errors[0].Message)" }
+          }
+          Get-Content config/packages.json -Raw | ConvertFrom-Json | Out-Null
+          Get-Content config/ide.json -Raw | ConvertFrom-Json | Out-Null
+          Get-Content pack/rafdi-academic-research-pack/plugin.json -Raw | ConvertFrom-Json | Out-Null
+
+      - name: Fresh-host install
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\installer\install.ps1 -NoPause
+          if ($LASTEXITCODE -ne 0) { throw "Installer exit=$LASTEXITCODE" }
+
+      - name: Read-only verification
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\installer\verify.ps1
+          if ($LASTEXITCODE -ne 0) { throw "Verifier exit=$LASTEXITCODE" }
+
+      - name: Idempotent rerun
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\installer\install.ps1 -NoPause
+          if ($LASTEXITCODE -ne 0) { throw "Second installer exit=$LASTEXITCODE" }
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\installer\verify.ps1
+          if ($LASTEXITCODE -ne 0) { throw "Second verifier exit=$LASTEXITCODE" }
+
+      - name: Failure-path gate
+        shell: pwsh
+        run: |
+          $manifest = '.\config\packages.json'
+          $temp = '.\config\packages.json.acceptance-test'
+          Move-Item $manifest $temp
+          try {
+            & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\installer\install.ps1 -DryRun -NoPause
+            $code = $LASTEXITCODE
+          } finally {
+            Move-Item $temp $manifest
+          }
+          if ($code -ne 22) { throw "Expected missing-manifest exit 22, got $code" }
+          Write-Host "FAILURE_PATH_OK exit=$code"
+
+      - name: Build release candidate
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\release\build-release.ps1 -Version 0.1.0-rc1
+          if ($LASTEXITCODE -ne 0) { throw "Release build failed" }
+
+      - name: Verify standalone archive
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $zip = Get-ChildItem .\dist\Antigravity-Research-Kit-v0.1.0-rc1.zip
+          $shaFile = Get-Item ($zip.FullName + '.sha256')
+          $line = (Get-Content $shaFile.FullName -Raw).Trim()
+          $expected = ($line -split '\s+')[0].ToLowerInvariant()
+          $actual = (Get-FileHash $zip.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($expected -ne $actual) { throw 'ZIP checksum mismatch' }
+
+          $dest = Join-Path $env:RUNNER_TEMP 'ark-standalone'
+          Expand-Archive -LiteralPath $zip.FullName -DestinationPath $dest -Force
+          $root = Join-Path $dest 'Antigravity-Research-Kit-v0.1.0-rc1'
+          if (-not (Test-Path (Join-Path $root 'INSTALL.bat'))) { throw 'INSTALL.bat missing from standalone package' }
+
+          $manifest = Join-Path $root 'MANIFEST-SHA256.txt'
+          $lines = Get-Content $manifest | Where-Object { $_ -match '^[0-9a-fA-F]{64}\s{2}' }
+          foreach ($entry in $lines) {
+            $parts = $entry -split '\s{2}',2
+            $file = Join-Path $root ($parts[1] -replace '/','\')
+            $hash = (Get-FileHash $file -Algorithm SHA256).Hash.ToLowerInvariant()
+            if ($hash -ne $parts[0].ToLowerInvariant()) { throw "Manifest mismatch: $($parts[1])" }
+          }
+          Write-Host "STANDALONE_HASH_GATE_OK files=$($lines.Count)"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: antigravity-research-kit-rc1
+          path: |
+            dist/*.zip
+            dist/*.sha256
+          if-no-files-found: error
