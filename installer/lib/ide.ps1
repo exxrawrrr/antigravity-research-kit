@@ -88,7 +88,7 @@ function Test-AgySafetyCapabilities {
         return @{ Success = $false; Sandbox = $false; PermissionGuard = $false; Output = "agy command not found" }
     }
 
-    $help = (& agy --help 2>&1 | Out-String)
+    $help = (& cmd.exe /d /c "agy --help 2>&1" | Out-String)
     $sandbox = $help -match "(?m)^\s*--sandbox\s"
     $danger = $help -match "(?m)^\s*--dangerously-skip-permissions\s"
 
