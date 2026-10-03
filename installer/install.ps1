@@ -24,9 +24,10 @@ try {
 
     Write-Section "System Check"
 
-    if ($env:OS -ne "Windows_NT") {
+    $platform = [System.Environment]::OSVersion.Platform
+    if ($platform -ne [System.PlatformID]::Win32NT) {
         Write-Status FAIL "This installer currently supports Windows only."
-        Log "Unsupported OS: $env:OS"
+        Log "Unsupported OS platform: $platform"
         exit 20
     }
     Write-Status OK "Windows detected."
