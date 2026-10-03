@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - phase/05-release-candidate
+    paths-ignore:
+      - 'docs/**'
+      - 'ROADMAP.md'
   workflow_dispatch:
 
 permissions:
