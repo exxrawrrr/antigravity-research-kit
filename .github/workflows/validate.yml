@@ -14,7 +14,7 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          Get-ChildItem installer -Recurse -Filter *.ps1 | ForEach-Object {
+          Get-ChildItem installer,release -Recurse -Filter *.ps1 | ForEach-Object {
             $tokens = $null
             $errors = $null
             [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$errors) | Out-Null
@@ -22,6 +22,35 @@ jobs:
           }
           Get-Content config/packages.json -Raw | ConvertFrom-Json | Out-Null
           Get-Content config/ide.json -Raw | ConvertFrom-Json | Out-Null
+          Get-Content pack/rafdi-academic-research-pack/plugin.json -Raw | ConvertFrom-Json | Out-Null
+
+      - name: Validate launchers and version metadata
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $required = @(
+            'START.cmd',
+            'INSTALL.bat',
+            'STATUS.cmd',
+            'VERIFY.bat',
+            'REPAIR.bat',
+            'ROLLBACK-MANAGED-SETUP.bat'
+          )
+          foreach ($path in $required) {
+            if (-not (Test-Path -LiteralPath $path)) { throw "Missing launcher: $path" }
+          }
+
+          $version = (Get-Content .\VERSION -Raw).Trim()
+          if ($version -notmatch '^\d+\.\d+\.\d+$') { throw "Invalid VERSION: $version" }
+
+          if (-not (Test-Path -LiteralPath '.\assets\terminal-preview-final.webp')) {
+            throw 'Final README terminal preview asset is missing.'
+          }
+
+          $readme = Get-Content .\README.md -Raw
+          if ($readme -notmatch 'assets/terminal-preview-final\.webp') {
+            throw 'README does not reference the final terminal preview asset.'
+          }
 
       - name: Validate academic skill structure
         shell: pwsh
