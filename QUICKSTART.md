@@ -5,7 +5,7 @@ Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 ## For friends / non-developers
 
 1. Open the latest release: https://github.com/exxrawrrr/antigravity-research-kit/releases/latest
-2. Download **`Antigravity-Research-Kit-v0.1.1.zip`**.
+2. Download **`Antigravity-Research-Kit-v0.1.2.zip`**.
 3. Extract the ZIP completely. Do not run it from inside the compressed archive.
 4. Double-click **`START.cmd`**. Windows Terminal opens maximized + focus mode when available; otherwise the launcher falls back safely.
 5. Keep the terminal open until it clearly reports completion or an error.
@@ -50,4 +50,4 @@ Every Rafdi-authored skill contains **Made by Rafdi D. Ulhaq**.
 
 ## Release status
 
-**v0.1.1** adds the premium Windows Terminal TUI launcher while preserving the v0.1.0 installer and safety contract.
+**v0.1.2** adds the premium Windows Terminal TUI launcher while preserving the v0.1.0 installer and safety contract.
