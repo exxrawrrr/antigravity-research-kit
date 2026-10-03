@@ -1,63 +1,130 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1180" viewBox="0 0 1600 1180">
-  <rect width="1600" height="1180" fill="#050505"/>
-  <rect x="34" y="28" width="1532" height="1120" rx="22" fill="#111214" stroke="#8f5c38" stroke-width="2"/>
-  <rect x="34" y="28" width="1532" height="58" rx="22" fill="#242321"/>
-  <rect x="34" y="61" width="1532" height="25" fill="#242321"/>
-  <circle cx="68" cy="57" r="7" fill="#ff5f57"/>
-  <circle cx="92" cy="57" r="7" fill="#febc2e"/>
-  <circle cx="116" cy="57" r="7" fill="#28c840"/>
-  <text x="800" y="64" text-anchor="middle" fill="#e7e1d7" font-family="Consolas, monospace" font-size="18" font-weight="700">exxrawrrr - Antigravity Research Installer</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1050" viewBox="0 0 1600 1050">
+  <defs>
+    <linearGradient id="page" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#090A0C"/>
+      <stop offset="58%" stop-color="#111214"/>
+      <stop offset="100%" stop-color="#17130F"/>
+    </linearGradient>
+    <linearGradient id="panel" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#20201F"/>
+      <stop offset="100%" stop-color="#171817"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFC94A"/>
+      <stop offset="48%" stop-color="#FFD966"/>
+      <stop offset="100%" stop-color="#D98B3A"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#FFB82E"/>
+      <stop offset="100%" stop-color="#FF8C32"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="24" stdDeviation="28" flood-color="#000000" flood-opacity=".55"/>
+    </filter>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
 
-  <g font-family="Consolas, monospace" font-size="15">
-    <text x="72" y="125" fill="#ffd34f" font-size="24" font-weight="800">EXXRAWRRR :: ANTIGRAVITY RESEARCH KIT</text>
-    <text x="72" y="158" fill="#d18b39" font-size="18" font-weight="800">ANTIGRAVITY x RESEARCH SKILL INSTALLER</text>
-    <text x="72" y="186" fill="#d8d0c5">made by Rafdi D. Ulhaq</text>
-    <text x="72" y="216" fill="#857e76">local academic AI setup for skripsi / thesis / dissertation</text>
-    <text x="72" y="242" fill="#857e76">Windows | local-first | permission-first | research-ready</text>
+  <rect width="1600" height="1050" fill="#050505"/>
+  <rect x="36" y="28" width="1528" height="994" rx="24" fill="url(#page)" stroke="#8F5C38" stroke-width="2.2" filter="url(#shadow)"/>
 
-    <line x1="72" y1="272" x2="1528" y2="272" stroke="#7c5237" stroke-width="1.2"/>
-    <text x="72" y="311" fill="#ffbd35" font-weight="800">[!] DO NOT CLOSE THIS WINDOW UNTIL THE PROCESS IS COMPLETE.</text>
-    <text x="72" y="338" fill="#b6aea4">Live installer status will continue below.</text>
+  <!-- title strip -->
+  <rect x="36" y="28" width="1528" height="60" rx="24" fill="#242321"/>
+  <rect x="36" y="63" width="1528" height="25" fill="#242321"/>
+  <circle cx="70" cy="58" r="7" fill="#FF5F57"/>
+  <circle cx="95" cy="58" r="7" fill="#FEBB2E"/>
+  <circle cx="120" cy="58" r="7" fill="#28C840"/>
+  <text x="800" y="65" text-anchor="middle" fill="#E7E1D7" font-family="Consolas, 'Cascadia Mono', monospace" font-size="18" font-weight="700">exxrawrrr / antigravity-research-kit / installer</text>
 
-    <text x="72" y="390" fill="#ffd45a" font-weight="800">[STEP 1/6]  SYSTEM CHECK</text>
-    <text x="72" y="416" fill="#8f877f">Platform, package manager, and free-space preflight</text>
-    <text x="72" y="443" fill="#d08b3f">overall  [#####.............................]  17%</text>
-    <text x="72" y="470" fill="#7dd3a7" font-weight="800">[ OK ]</text>
-    <text x="148" y="470" fill="#ece6dd">Windows detected.</text>
-    <text x="72" y="496" fill="#7dd3a7" font-weight="800">[ OK ]</text>
-    <text x="148" y="496" fill="#ece6dd">WinGet detected.</text>
-
-    <text x="72" y="548" fill="#ffd45a" font-weight="800">[STEP 2/6]  ANTIGRAVITY</text>
-    <text x="72" y="574" fill="#8f877f">Core app, IDE, and CLI package state</text>
-    <text x="72" y="601" fill="#d08b3f">overall  [###########.......................]  33%</text>
-    <text x="72" y="628" fill="#7bb28f" font-weight="800">[SKIP]</text>
-    <text x="148" y="628" fill="#ece6dd">Antigravity already installed.</text>
-    <text x="72" y="654" fill="#7bb28f" font-weight="800">[SKIP]</text>
-    <text x="148" y="654" fill="#ece6dd">Antigravity IDE already installed.</text>
-    <text x="72" y="680" fill="#7bb28f" font-weight="800">[SKIP]</text>
-    <text x="148" y="680" fill="#ece6dd">Antigravity CLI already installed.</text>
-    <text x="72" y="706" fill="#d08b3f">package  [##############################] 100%  (3/3)</text>
-
-    <text x="72" y="758" fill="#ffd45a" font-weight="800">[STEP 3/6]  IDE EXPERIENCE</text>
-    <text x="72" y="784" fill="#7dd3a7" font-weight="800">[ OK ]</text>
-    <text x="148" y="784" fill="#ece6dd">Tokyo Night Storm + Material Icon Theme</text>
-
-    <text x="72" y="826" fill="#ffd45a" font-weight="800">[STEP 4/6]  SAFETY DEFAULTS</text>
-    <text x="72" y="852" fill="#7dd3a7" font-weight="800">[ OK ]</text>
-    <text x="148" y="852" fill="#ece6dd">Sandbox enabled + permission prompts stay ON</text>
-
-    <text x="72" y="894" fill="#ffd45a" font-weight="800">[STEP 5/6]  RAFDI ACADEMIC RESEARCH PACK</text>
-    <text x="72" y="920" fill="#7dd3a7" font-weight="800">[ OK ]</text>
-    <text x="148" y="920" fill="#ece6dd">Research / Document / Reviewer + 2 helper skills</text>
-
-    <text x="72" y="962" fill="#ffd45a" font-weight="800">[STEP 6/6]  INSTALLER VERIFICATION</text>
-    <text x="72" y="988" fill="#d08b3f">overall  [##################################] 100%</text>
-
-    <rect x="72" y="1012" width="1456" height="70" rx="10" fill="#1a1917" stroke="#7c5237"/>
-    <text x="96" y="1040" fill="#7dd3a7" font-size="17" font-weight="800">INSTALLATION COMPLETE</text>
-    <text x="96" y="1066" fill="#ece6dd">Antigravity Research Environment is ready.  made by Rafdi D. Ulhaq</text>
-
-    <rect x="72" y="1096" width="1456" height="36" rx="8" fill="#201d18" stroke="#d18b39"/>
-    <text x="96" y="1120" fill="#ffd45a" font-weight="800">USER ACTION   [V] Verify   [A] Open Antigravity   [R] Repair   [Q] Close</text>
+  <!-- giant premium wordmark -->
+  <g font-family="Consolas, 'Cascadia Mono', monospace" font-weight="900">
+    <text x="70" y="194" font-size="108" letter-spacing="2" fill="none" stroke="#5F3927" stroke-width="7">EXXRAWRRR</text>
+    <text x="70" y="186" font-size="108" letter-spacing="2" fill="#FFCF4D" stroke="#F1A33C" stroke-width="2">EXXRAWRRR</text>
+    <text x="72" y="220" font-size="108" letter-spacing="2" fill="#B96B39" opacity=".55">EXXRAWRRR</text>
   </g>
+
+  <text x="76" y="270" fill="#F4B63C" font-family="Consolas, 'Cascadia Mono', monospace" font-size="24" font-weight="800">ANTIGRAVITY × RESEARCH SKILL INSTALLER</text>
+  <text x="76" y="306" fill="#E9E1D2" font-family="Consolas, 'Cascadia Mono', monospace" font-size="18">made by Rafdi D. Ulhaq</text>
+
+  <line x1="70" y1="338" x2="1530" y2="338" stroke="#8F5C38" stroke-width="1.5"/>
+
+  <!-- left identity panel -->
+  <rect x="70" y="368" width="420" height="573" rx="18" fill="url(#panel)" stroke="#765139" stroke-width="1.4"/>
+  <text x="102" y="412" fill="#FFD35D" font-family="Consolas, 'Cascadia Mono', monospace" font-size="18" font-weight="800">INSTALL SESSION</text>
+
+  <!-- emblem -->
+  <g transform="translate(165 458)">
+    <path d="M45 118 L110 8 L175 118 Z" fill="none" stroke="#F6B83C" stroke-width="7"/>
+    <path d="M70 118 L110 49 L150 118" fill="none" stroke="#D87938" stroke-width="5"/>
+    <circle cx="110" cy="87" r="15" fill="#FFD451"/>
+    <path d="M43 134 C80 164,140 164,177 134" fill="none" stroke="#99613A" stroke-width="4"/>
+  </g>
+
+  <text x="102" y="670" fill="#F4B63C" font-family="Consolas, 'Cascadia Mono', monospace" font-size="17">target</text>
+  <text x="175" y="670" fill="#E8E0D5" font-family="Consolas, 'Cascadia Mono', monospace" font-size="17">Windows · local academic AI</text>
+  <text x="102" y="702" fill="#F4B63C" font-family="Consolas, 'Cascadia Mono', monospace" font-size="17">mode</text>
+  <text x="175" y="702" fill="#E8E0D5" font-family="Consolas, 'Cascadia Mono', monospace" font-size="17">safe / permission-first</text>
+  <text x="102" y="734" fill="#F4B63C" font-family="Consolas, 'Cascadia Mono', monospace" font-size="17">pack</text>
+  <text x="175" y="734" fill="#E8E0D5" font-family="Consolas, 'Cascadia Mono', monospace" font-size="17">Rafdi Academic Research</text>
+
+  <text x="102" y="786" fill="#D1C8BB" font-family="Consolas, 'Cascadia Mono', monospace" font-size="16">verified clean-host result</text>
+  <rect x="102" y="807" width="330" height="18" rx="9" fill="#3A3029"/>
+  <rect x="102" y="807" width="330" height="18" rx="9" fill="url(#bar)"/>
+  <text x="102" y="858" fill="#FFD35D" font-family="Consolas, 'Cascadia Mono', monospace" font-size="28" font-weight="900">100%</text>
+  <text x="183" y="858" fill="#AFA79D" font-family="Consolas, 'Cascadia Mono', monospace" font-size="15">acceptance passed</text>
+
+  <rect x="102" y="888" width="330" height="1" fill="#5A4638"/>
+  <text x="102" y="918" fill="#8C837A" font-family="Consolas, 'Cascadia Mono', monospace" font-size="13">v0.1.2 · premium runtime hotfix</text>
+
+  <!-- right main terminal -->
+  <rect x="520" y="368" width="1010" height="573" rx="18" fill="#1D1E1C" stroke="#9A6240" stroke-width="1.4"/>
+  <text x="554" y="408" fill="#FFB82E" font-family="Consolas, 'Cascadia Mono', monospace" font-size="18" font-weight="900">⚠ DO NOT CLOSE THIS WINDOW</text>
+  <text x="554" y="438" fill="#C9C1B7" font-family="Consolas, 'Cascadia Mono', monospace" font-size="15">Installer sedang menyiapkan AI workspace penelitian Anda.</text>
+
+  <!-- sections -->
+  <g font-family="Consolas, 'Cascadia Mono', monospace">
+    <text x="554" y="492" fill="#D38B3E" font-size="16" font-weight="900">SYSTEM CHECK</text>
+    <text x="554" y="522" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="622" y="522" fill="#EEE8DE" font-size="15">Windows detected</text>
+    <text x="554" y="550" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="622" y="550" fill="#EEE8DE" font-size="15">WinGet detected</text>
+
+    <text x="554" y="603" fill="#D38B3E" font-size="16" font-weight="900">ANTIGRAVITY</text>
+    <text x="554" y="633" fill="#FFBE3F" font-size="15" font-weight="800">[RUN]</text>
+    <text x="622" y="633" fill="#EEE8DE" font-size="15">Installing Antigravity 2.x</text>
+    <text x="554" y="661" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="622" y="661" fill="#EEE8DE" font-size="15">Antigravity installed and detected</text>
+    <text x="554" y="689" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="622" y="689" fill="#EEE8DE" font-size="15">Antigravity IDE installed and detected</text>
+    <text x="554" y="717" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="622" y="717" fill="#EEE8DE" font-size="15">Antigravity CLI installed and detected</text>
+
+    <text x="1040" y="492" fill="#D38B3E" font-size="16" font-weight="900">IDE EXPERIENCE</text>
+    <text x="1040" y="522" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="1108" y="522" fill="#EEE8DE" font-size="15">Tokyo Night Storm</text>
+    <text x="1040" y="550" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="1108" y="550" fill="#EEE8DE" font-size="15">Material Icon Theme</text>
+
+    <text x="1040" y="603" fill="#D38B3E" font-size="16" font-weight="900">SAFETY DEFAULTS</text>
+    <text x="1040" y="633" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="1108" y="633" fill="#EEE8DE" font-size="15">Terminal sandbox enabled</text>
+    <text x="1040" y="661" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="1108" y="661" fill="#EEE8DE" font-size="15">Permission prompts stay ON</text>
+
+    <text x="1040" y="717" fill="#D38B3E" font-size="16" font-weight="900">RAFDI ACADEMIC PACK</text>
+    <text x="1040" y="747" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="1108" y="747" fill="#EEE8DE" font-size="15">Research · Document · Reviewer</text>
+    <text x="1040" y="775" fill="#7DD3A7" font-size="15" font-weight="800">[OK]</text>
+    <text x="1108" y="775" fill="#EEE8DE" font-size="15">Style Learning · Evidence Tracing</text>
+
+    <line x1="554" y1="815" x2="1495" y2="815" stroke="#5D4636" stroke-width="1"/>
+    <text x="554" y="858" fill="#FFCF4D" font-size="22" font-weight="900">READY FOR LOCAL ACADEMIC WORK</text>
+    <text x="554" y="889" fill="#AFA79D" font-size="14">skripsi · thesis · dissertation · local files · verified installer path</text>
+  </g>
+
+  <!-- footer -->
+  <text x="70" y="987" fill="#6D665F" font-family="Consolas, 'Cascadia Mono', monospace" font-size="13">README VISUAL PREVIEW · runtime palette aligned · v0.1.2</text>
+  <text x="1530" y="987" text-anchor="end" fill="#6D665F" font-family="Consolas, 'Cascadia Mono', monospace" font-size="13">exxrawrrr / Antigravity Research Kit</text>
 </svg>
