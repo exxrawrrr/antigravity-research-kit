@@ -155,11 +155,13 @@ try {
             if ($experience.Success) {
                 if ($DryRun) {
                     Write-Status INFO "Would select Tokyo Night Storm + Material Icon Theme."
-                } else {
+                } elseif ($experience.Changed) {
                     Write-Status OK "Tokyo Night Storm + Material Icon Theme configured."
                     if ($experience.Backup) {
                         Write-Status INFO "Previous IDE settings backed up to $($experience.Backup)"
                     }
+                } else {
+                    Write-Status SKIP "Tokyo Night Storm + Material Icon Theme already configured."
                 }
             } else {
                 Write-Status FAIL "IDE settings were left unchanged: $($experience.Output)"
@@ -185,11 +187,13 @@ try {
     if ($sandboxSetting.Success) {
         if ($DryRun) {
             Write-Status INFO "Would persist enableTerminalSandbox=true."
-        } else {
+        } elseif ($sandboxSetting.Changed) {
             Write-Status OK "Persistent terminal sandbox enabled."
             if ($sandboxSetting.Backup) {
                 Write-Status INFO "Previous CLI settings backed up to $($sandboxSetting.Backup)"
             }
+        } else {
+            Write-Status SKIP "Persistent terminal sandbox already enabled."
         }
     } else {
         Write-Status FAIL "Could not persist terminal sandbox safely: $($sandboxSetting.Output)"
@@ -201,8 +205,27 @@ try {
     if ($safeLauncher.Success) {
         if ($DryRun) {
             Write-Status INFO "Would create agy-safe launcher at $($safeLauncher.Path)."
-        } else {
+        } elseif ($safeLauncher.Changed) {
             Write-Status OK "agy-safe launcher created at $($safeLauncher.Path)."
+        } else {
+            Write-Status SKIP "agy-safe launcher already correct."
+        }
+
+        $safeBin = Split-Path -Parent $safeLauncher.Path
+        $pathResult = Ensure-UserPathEntry -Entry $safeBin -DryRun:$DryRun
+        Log ("PATH REGISTER success={0} changed={1} backup={2} output={3}" -f $pathResult.Success, $pathResult.Changed, $pathResult.Backup, $pathResult.Output)
+        if ($pathResult.Success) {
+            if ($DryRun) {
+                Write-Status INFO "Would add managed bin to user PATH so 'agy-safe' works anywhere."
+            } elseif ($pathResult.Changed) {
+                Write-Status OK "agy-safe registered on user PATH."
+                Write-Status INFO "Previous user PATH backed up to $($pathResult.Backup)"
+            } else {
+                Write-Status SKIP "Managed bin already present on user PATH."
+            }
+        } else {
+            Write-Status FAIL "Could not register agy-safe on user PATH."
+            $failed += "agy-safe PATH"
         }
     } else {
         Write-Status FAIL "Could not create agy-safe launcher."

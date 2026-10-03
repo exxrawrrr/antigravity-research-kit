@@ -31,11 +31,11 @@ GitHub is the source of truth. GROWTH is only the verified baseline/test machine
 - [x] document-style learning profile workflow
 
 ## Phase 4 — UX, Safety & Repair
-- [ ] branded terminal
-- [ ] backup + rollback
-- [ ] repair mode
-- [ ] friendly diagnostics
-- [ ] explicit "DO NOT CLOSE THIS WINDOW" state
+- [x] branded terminal
+- [x] backup + conservative managed rollback
+- [x] repair mode
+- [x] read-only verifier + friendly diagnostics
+- [x] explicit "DO NOT CLOSE THIS WINDOW" state
 
 ## Phase 5 — Clean-Machine Acceptance & v0.1
 - [ ] fresh Windows VM/sandbox test

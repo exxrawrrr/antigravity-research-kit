@@ -3,13 +3,14 @@ Set-StrictMode -Version Latest
 function Write-Banner {
     Clear-Host
     Write-Host ""
-    Write-Host "  EXXRAWRRR" -ForegroundColor Yellow
-    Write-Host "  ANTIGRAVITY x RESEARCH SKILL INSTALLER" -ForegroundColor Yellow
-    Write-Host "  made by Rafdi D. Ulhaq" -ForegroundColor DarkYellow
+    Write-Host "  ================================================================" -ForegroundColor DarkYellow
+    Write-Host "   EXXRAWRRR :: ANTIGRAVITY RESEARCH KIT" -ForegroundColor Yellow
+    Write-Host "   local academic AI setup for skripsi / thesis / dissertation" -ForegroundColor DarkYellow
+    Write-Host "   made by Rafdi D. Ulhaq" -ForegroundColor Gray
+    Write-Host "  ================================================================" -ForegroundColor DarkYellow
     Write-Host ""
-    Write-Host "  ============================================================" -ForegroundColor DarkGray
-    Write-Host "  DO NOT CLOSE THIS WINDOW UNTIL INSTALLATION IS COMPLETE." -ForegroundColor Red
-    Write-Host "  ============================================================" -ForegroundColor DarkGray
+    Write-Host "   DO NOT CLOSE THIS WINDOW." -ForegroundColor Red
+    Write-Host "   The installer will stop only after verification or a clear error." -ForegroundColor Red
     Write-Host ""
 }
 
