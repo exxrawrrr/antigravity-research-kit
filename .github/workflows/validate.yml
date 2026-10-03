@@ -1,0 +1,36 @@
+name: validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  static-validation:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Parse PowerShell and manifests
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Get-ChildItem installer -Recurse -Filter *.ps1 | ForEach-Object {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count) { throw "$($_.FullName): $($errors[0].Message)" }
+          }
+          Get-Content config/packages.json -Raw | ConvertFrom-Json | Out-Null
+          Get-Content config/ide.json -Raw | ConvertFrom-Json | Out-Null
+
+      - name: Validate academic skill structure
+        shell: pwsh
+        run: |
+          $skills = Get-ChildItem pack/rafdi-academic-research-pack/skills -Directory
+          if ($skills.Count -ne 5) { throw "Expected 5 skills, found $($skills.Count)" }
+          foreach ($skill in $skills) {
+            $path = Join-Path $skill.FullName 'SKILL.md'
+            $text = Get-Content $path -Raw
+            if ($text -notmatch '(?s)^---.*?name:.*?description:.*?---') { throw "Invalid frontmatter: $path" }
+            if ($text -notmatch 'Made by Rafdi D\. Ulhaq') { throw "Missing attribution: $path" }
+          }
