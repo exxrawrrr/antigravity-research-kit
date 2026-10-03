@@ -29,6 +29,7 @@ $include = @(
     "SECURITY.md",
     "LICENSE",
     "VERSION",
+    "assets",
     "config",
     "installer",
     "pack"
