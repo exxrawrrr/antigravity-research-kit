@@ -18,6 +18,50 @@ function Test-IdeExtensionInstalled([string]$ExtensionId) {
         Select-Object -First 1)
 }
 
+function Get-AntigravityIdeExe {
+    $expected = Join-Path $env:LOCALAPPDATA "Programs\Antigravity IDE\Antigravity IDE.exe"
+    if (Test-Path -LiteralPath $expected) { return $expected }
+    return $null
+}
+
+function Initialize-AntigravityIdeProfile {
+    $exe = Get-AntigravityIdeExe
+    if (-not $exe) {
+        return @{ Success = $false; Output = "Antigravity IDE executable not found for profile bootstrap" }
+    }
+
+    try {
+        $proc = Start-Process -FilePath $exe -ArgumentList @("--disable-extensions","--skip-welcome","--skip-release-notes") -PassThru
+        Start-Sleep -Seconds 8
+        if (-not $proc.HasExited) {
+            Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+            $proc.WaitForExit(5000) | Out-Null
+        }
+        return @{ Success = $true; Output = "Antigravity IDE profile bootstrap attempted" }
+    } catch {
+        return @{ Success = $false; Output = "Antigravity IDE profile bootstrap failed: $($_.Exception.Message)" }
+    }
+}
+
+function Invoke-IdeExtensionCommand {
+    param(
+        [string]$Command,
+        [string[]]$Arguments
+    )
+
+    $oldPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = "Continue"
+        $output = (& $Command @Arguments 2>&1 | Out-String)
+        $code = $LASTEXITCODE
+        return @{ ExitCode = $code; Output = $output.Trim() }
+    } catch {
+        return @{ ExitCode = 99; Output = $_.Exception.Message }
+    } finally {
+        $ErrorActionPreference = $oldPreference
+    }
+}
+
 function Install-IdeExtension {
     param(
         [string]$Cli,
@@ -29,15 +73,49 @@ function Install-IdeExtension {
         return @{ Success = $true; ExitCode = 0; Output = "DRY-RUN: install extension $ExtensionId" }
     }
 
-    $output = (& $Cli --install-extension $ExtensionId --force 2>&1 | Out-String)
-    $code = $LASTEXITCODE
-    $installed = Test-IdeExtensionInstalled -ExtensionId $ExtensionId
-    return @{ Success = $installed; ExitCode = $code; Output = $output.Trim() }
+    $attempts = @()
+
+    $first = Invoke-IdeExtensionCommand -Command $Cli -Arguments @("--install-extension",$ExtensionId,"--force")
+    $output = $first.Output
+    $code = $first.ExitCode
+    $attempts += "CLI exit=$code :: $output"
+    if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
+        return @{ Success = $true; ExitCode = $code; Output = ($attempts -join " | ") }
+    }
+
+    $exe = Get-AntigravityIdeExe
+    if ($exe) {
+        $exeAttempt = Invoke-IdeExtensionCommand -Command $exe -Arguments @("--install-extension",$ExtensionId,"--force")
+        $exeOutput = $exeAttempt.Output
+        $exeCode = $exeAttempt.ExitCode
+        $attempts += "EXE exit=$exeCode :: $exeOutput"
+        if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
+            return @{ Success = $true; ExitCode = $exeCode; Output = ($attempts -join " | ") }
+        }
+    }
+
+    $registrationFailure = (($output -match "NOT registered") -or ($output -match "antigravityAnalytics") -or ($output -match "extensionManagementService"))
+    if ($registrationFailure) {
+        $bootstrap = Initialize-AntigravityIdeProfile
+        $attempts += "BOOTSTRAP :: $($bootstrap.Output)"
+        if ($bootstrap.Success) {
+            $retryAttempt = Invoke-IdeExtensionCommand -Command $Cli -Arguments @("--install-extension",$ExtensionId,"--force")
+            $retry = $retryAttempt.Output
+            $retryCode = $retryAttempt.ExitCode
+            $attempts += "RETRY exit=$retryCode :: $retry"
+            if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
+                return @{ Success = $true; ExitCode = $retryCode; Output = ($attempts -join " | ") }
+            }
+        }
+    }
+
+    return @{ Success = $false; ExitCode = $code; Output = ($attempts -join " | ") }
 }
 
 function Set-JsonProperty {
     param([object]$Object, [string]$Name, [object]$Value)
-    if ($Object.PSObject.Properties.Name -contains $Name) {
+    $propertyNames = @($Object.PSObject.Properties | ForEach-Object { $_.Name })
+    if ($propertyNames -contains $Name) {
         $Object.$Name = $Value
     } else {
         $Object | Add-Member -NotePropertyName $Name -NotePropertyValue $Value
@@ -70,8 +148,9 @@ function Set-AntigravityIdeExperience {
     }
 
     $needsChange = $false
+    $propertyNames = @($obj.PSObject.Properties | ForEach-Object { $_.Name })
     foreach ($key in $Desired.Keys) {
-        if (($obj.PSObject.Properties.Name -notcontains $key) -or ($obj.$key -ne $Desired[$key])) {
+        if (($propertyNames -notcontains $key) -or ($obj.$key -ne $Desired[$key])) {
             $needsChange = $true
             break
         }
@@ -156,7 +235,8 @@ function Set-AgySandboxPersistent {
             return @{ Success = $false; Changed = $false; Path = $settingsPath; Backup = $null; Output = "Refused to rewrite non-JSON CLI settings: $($_.Exception.Message)" }
         }
 
-        if (($obj.PSObject.Properties.Name -contains "enableTerminalSandbox") -and ($obj.enableTerminalSandbox -eq $true)) {
+        $propertyNames = @($obj.PSObject.Properties | ForEach-Object { $_.Name })
+        if (($propertyNames -contains "enableTerminalSandbox") -and ($obj.enableTerminalSandbox -eq $true)) {
             return @{ Success = $true; Changed = $false; Path = $settingsPath; Backup = $null; Output = "enableTerminalSandbox already true" }
         }
     } else {

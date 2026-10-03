@@ -100,6 +100,9 @@ try {
         Write-ProgressLine -Done $done -Total $packages.Count
     }
 
+    $null = Refresh-ProcessPath
+    Log "Process PATH refreshed after core package phase."
+
     Write-Section "IDE Experience"
 
     if (-not (Test-Path -LiteralPath $IdeManifestPath)) {

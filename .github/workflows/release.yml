@@ -1,0 +1,70 @@
+name: publish-release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        shell: pwsh
+        run: |
+          $tag = $env:GITHUB_REF_NAME
+          if ($tag -notmatch '^v\d+\.\d+\.\d+$') { throw "Unsupported release tag: $tag" }
+          $version = $tag.Substring(1)
+          $declared = (Get-Content .\VERSION -Raw).Trim()
+          if ($declared -ne $version) { throw "VERSION=$declared does not match tag=$version" }
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Static validation
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          Get-ChildItem installer,release -Recurse -Filter *.ps1 | ForEach-Object {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile($_.FullName,[ref]$tokens,[ref]$errors) | Out-Null
+            if ($errors.Count) { throw "$($_.FullName): $($errors[0].Message)" }
+          }
+          Get-Content config/packages.json -Raw | ConvertFrom-Json | Out-Null
+          Get-Content config/ide.json -Raw | ConvertFrom-Json | Out-Null
+          Get-Content pack/rafdi-academic-research-pack/plugin.json -Raw | ConvertFrom-Json | Out-Null
+
+      - name: Build final release
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\release\build-release.ps1 -Version '${{ steps.version.outputs.version }}'
+          if ($LASTEXITCODE -ne 0) { throw 'Release build failed' }
+
+      - name: Verify final archive
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $version = '${{ steps.version.outputs.version }}'
+          $zip = Get-Item ".\dist\Antigravity-Research-Kit-v$version.zip"
+          $shaFile = Get-Item ($zip.FullName + '.sha256')
+          $line = (Get-Content $shaFile.FullName -Raw).Trim()
+          $expected = ($line -split '\s+')[0].ToLowerInvariant()
+          $actual = (Get-FileHash $zip.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($expected -ne $actual) { throw 'Final ZIP checksum mismatch' }
+
+      - name: Publish GitHub Release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = '${{ steps.version.outputs.version }}'
+          $zip = ".\dist\Antigravity-Research-Kit-v$version.zip"
+          $sha = "$zip.sha256"
+          gh release create "$env:GITHUB_REF_NAME" $zip $sha --title "Antigravity Research Kit v$version" --notes-file .\release\RELEASE_NOTES.md

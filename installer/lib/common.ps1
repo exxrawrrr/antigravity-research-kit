@@ -82,3 +82,28 @@ function Ensure-UserPathEntry {
     return @{ Success = $true; Changed = $true; Backup = $backup; Output = "User PATH updated" }
 }
 
+
+function Refresh-ProcessPath {
+    $all = New-Object System.Collections.Generic.List[string]
+    $seen = @{}
+
+    foreach ($source in @(
+        $env:Path,
+        [Environment]::GetEnvironmentVariable("Path", "Machine"),
+        [Environment]::GetEnvironmentVariable("Path", "User")
+    )) {
+        if ([string]::IsNullOrWhiteSpace($source)) { continue }
+        foreach ($entry in ($source -split ";")) {
+            $trimmed = $entry.Trim()
+            if ([string]::IsNullOrWhiteSpace($trimmed)) { continue }
+            $key = $trimmed.TrimEnd("\").ToLowerInvariant()
+            if (-not $seen.ContainsKey($key)) {
+                $seen[$key] = $true
+                $all.Add($trimmed)
+            }
+        }
+    }
+
+    $env:Path = ($all -join ";")
+    return $env:Path
+}
