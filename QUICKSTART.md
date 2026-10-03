@@ -1,4 +1,4 @@
-# Quick Start â€” Antigravity Research Kit
+# Quick Start - Antigravity Research Kit
 
 Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 
@@ -25,20 +25,21 @@ Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 
 ## Research pack
 
-- **Research role-skill** â€” broad academic research with source tracing.
-- **Document role-skill** â€” local manuscript formatting/engineering.
-- **Reviewer role-skill** â€” strict academic QA.
-- **Document Style Learning** â€” learns formatting rules from a sample or official guideline.
-- **Evidence Tracing** â€” keeps claims linked to verifiable sources.
+- **Research role-skill** - broad academic research with source tracing.
+- **Document role-skill** - local manuscript formatting/engineering.
+- **Reviewer role-skill** - strict academic QA.
+- **Document Style Learning** - learns formatting rules from a sample or official guideline.
+- **Evidence Tracing** - keeps claims linked to verifiable sources.
 
 Every Rafdi-authored skill contains **Made by Rafdi D. Ulhaq**.
 
 ## Useful launchers
 
-- `INSTALL.bat` â€” initial setup / safe rerun.
-- `VERIFY.bat` â€” read-only health check.
-- `REPAIR.bat` â€” reapply missing managed pieces, then verify.
-- `ROLLBACK-MANAGED-SETUP.bat` â€” restore installer-managed settings/PATH and remove the Rafdi pack/launcher. It does **not** uninstall the Antigravity apps or third-party extensions.
+- `START.cmd` - recommended premium launcher.
+- `INSTALL.bat` - initial setup / safe rerun.
+- `VERIFY.bat` - read-only health check.
+- `REPAIR.bat` - reapply missing managed pieces, then verify.
+- `ROLLBACK-MANAGED-SETUP.bat` - restore installer-managed settings/PATH and remove the Rafdi pack/launcher. It does **not** uninstall the Antigravity apps or third-party extensions.
 
 ## Important
 
