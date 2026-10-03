@@ -114,7 +114,8 @@ function Install-IdeExtension {
 
 function Set-JsonProperty {
     param([object]$Object, [string]$Name, [object]$Value)
-    if ($Object.PSObject.Properties.Name -contains $Name) {
+    $propertyNames = @($Object.PSObject.Properties | ForEach-Object { $_.Name })
+    if ($propertyNames -contains $Name) {
         $Object.$Name = $Value
     } else {
         $Object | Add-Member -NotePropertyName $Name -NotePropertyValue $Value
@@ -147,8 +148,9 @@ function Set-AntigravityIdeExperience {
     }
 
     $needsChange = $false
+    $propertyNames = @($obj.PSObject.Properties | ForEach-Object { $_.Name })
     foreach ($key in $Desired.Keys) {
-        if (($obj.PSObject.Properties.Name -notcontains $key) -or ($obj.$key -ne $Desired[$key])) {
+        if (($propertyNames -notcontains $key) -or ($obj.$key -ne $Desired[$key])) {
             $needsChange = $true
             break
         }
@@ -233,7 +235,8 @@ function Set-AgySandboxPersistent {
             return @{ Success = $false; Changed = $false; Path = $settingsPath; Backup = $null; Output = "Refused to rewrite non-JSON CLI settings: $($_.Exception.Message)" }
         }
 
-        if (($obj.PSObject.Properties.Name -contains "enableTerminalSandbox") -and ($obj.enableTerminalSandbox -eq $true)) {
+        $propertyNames = @($obj.PSObject.Properties | ForEach-Object { $_.Name })
+        if (($propertyNames -contains "enableTerminalSandbox") -and ($obj.enableTerminalSandbox -eq $true)) {
             return @{ Success = $true; Changed = $false; Path = $settingsPath; Backup = $null; Output = "enableTerminalSandbox already true" }
         }
     } else {
