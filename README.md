@@ -5,6 +5,14 @@
 
 A careful Windows installer that prepares Antigravity for local thesis, skripsi, dissertation, and academic-research work.
 
+## Installer Preview
+
+<p align="center">
+  <img src="assets/terminal-preview.svg" alt="Antigravity Research Kit installer terminal preview" width="100%">
+</p>
+
+> Preview ini dirender dari **output real clean-Windows acceptance v0.1.0**. Jadi bukan mockup random: status install, theme, sandbox, dan academic pack-nya berasal dari installer yang benar-benar lolos gate.
+
 ## Download
 
 Use the latest GitHub Release:
