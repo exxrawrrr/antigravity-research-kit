@@ -204,6 +204,23 @@ try {
         } else {
             Write-Status OK "agy-safe launcher created at $($safeLauncher.Path)."
         }
+
+        $safeBin = Split-Path -Parent $safeLauncher.Path
+        $pathResult = Ensure-UserPathEntry -Entry $safeBin -DryRun:$DryRun
+        Log ("PATH REGISTER success={0} changed={1} backup={2} output={3}" -f $pathResult.Success, $pathResult.Changed, $pathResult.Backup, $pathResult.Output)
+        if ($pathResult.Success) {
+            if ($DryRun) {
+                Write-Status INFO "Would add managed bin to user PATH so 'agy-safe' works anywhere."
+            } elseif ($pathResult.Changed) {
+                Write-Status OK "agy-safe registered on user PATH."
+                Write-Status INFO "Previous user PATH backed up to $($pathResult.Backup)"
+            } else {
+                Write-Status SKIP "Managed bin already present on user PATH."
+            }
+        } else {
+            Write-Status FAIL "Could not register agy-safe on user PATH."
+            $failed += "agy-safe PATH"
+        }
     } else {
         Write-Status FAIL "Could not create agy-safe launcher."
         $failed += "agy-safe launcher"
