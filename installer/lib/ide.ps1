@@ -43,6 +43,25 @@ function Initialize-AntigravityIdeProfile {
     }
 }
 
+function Invoke-IdeExtensionCommand {
+    param(
+        [string]$Command,
+        [string[]]$Arguments
+    )
+
+    $oldPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = "Continue"
+        $output = (& $Command @Arguments 2>&1 | Out-String)
+        $code = $LASTEXITCODE
+        return @{ ExitCode = $code; Output = $output.Trim() }
+    } catch {
+        return @{ ExitCode = 99; Output = $_.Exception.Message }
+    } finally {
+        $ErrorActionPreference = $oldPreference
+    }
+}
+
 function Install-IdeExtension {
     param(
         [string]$Cli,
@@ -56,18 +75,20 @@ function Install-IdeExtension {
 
     $attempts = @()
 
-    $output = (& $Cli --install-extension $ExtensionId --force 2>&1 | Out-String)
-    $code = $LASTEXITCODE
-    $attempts += "CLI exit=$code :: $($output.Trim())"
+    $first = Invoke-IdeExtensionCommand -Command $Cli -Arguments @("--install-extension",$ExtensionId,"--force")
+    $output = $first.Output
+    $code = $first.ExitCode
+    $attempts += "CLI exit=$code :: $output"
     if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
         return @{ Success = $true; ExitCode = $code; Output = ($attempts -join " | ") }
     }
 
     $exe = Get-AntigravityIdeExe
     if ($exe) {
-        $exeOutput = (& $exe --install-extension $ExtensionId --force 2>&1 | Out-String)
-        $exeCode = $LASTEXITCODE
-        $attempts += "EXE exit=$exeCode :: $($exeOutput.Trim())"
+        $exeAttempt = Invoke-IdeExtensionCommand -Command $exe -Arguments @("--install-extension",$ExtensionId,"--force")
+        $exeOutput = $exeAttempt.Output
+        $exeCode = $exeAttempt.ExitCode
+        $attempts += "EXE exit=$exeCode :: $exeOutput"
         if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
             return @{ Success = $true; ExitCode = $exeCode; Output = ($attempts -join " | ") }
         }
@@ -78,9 +99,10 @@ function Install-IdeExtension {
         $bootstrap = Initialize-AntigravityIdeProfile
         $attempts += "BOOTSTRAP :: $($bootstrap.Output)"
         if ($bootstrap.Success) {
-            $retry = (& $Cli --install-extension $ExtensionId --force 2>&1 | Out-String)
-            $retryCode = $LASTEXITCODE
-            $attempts += "RETRY exit=$retryCode :: $($retry.Trim())"
+            $retryAttempt = Invoke-IdeExtensionCommand -Command $Cli -Arguments @("--install-extension",$ExtensionId,"--force")
+            $retry = $retryAttempt.Output
+            $retryCode = $retryAttempt.ExitCode
+            $attempts += "RETRY exit=$retryCode :: $retry"
             if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
                 return @{ Success = $true; ExitCode = $retryCode; Output = ($attempts -join " | ") }
             }
