@@ -58,19 +58,34 @@ function Set-AntigravityIdeExperience {
     }
 
     New-Item -ItemType Directory -Force -Path $settingsDir | Out-Null
-    $backup = $null
 
+    if (Test-Path -LiteralPath $settingsPath) {
+        try {
+            $obj = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
+        } catch {
+            return @{ Success = $false; Changed = $false; Path = $settingsPath; Backup = $null; Output = "Refused to rewrite non-JSON settings file: $($_.Exception.Message)" }
+        }
+    } else {
+        $obj = [pscustomobject]@{}
+    }
+
+    $needsChange = $false
+    foreach ($key in $Desired.Keys) {
+        if (($obj.PSObject.Properties.Name -notcontains $key) -or ($obj.$key -ne $Desired[$key])) {
+            $needsChange = $true
+            break
+        }
+    }
+
+    if (-not $needsChange) {
+        return @{ Success = $true; Changed = $false; Path = $settingsPath; Backup = $null; Output = "IDE experience already configured" }
+    }
+
+    $backup = $null
     if (Test-Path -LiteralPath $settingsPath) {
         $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
         $backup = "$settingsPath.backup-$stamp"
         Copy-Item -LiteralPath $settingsPath -Destination $backup -Force
-        try {
-            $obj = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
-        } catch {
-            return @{ Success = $false; Changed = $false; Path = $settingsPath; Backup = $backup; Output = "Refused to rewrite non-JSON settings file: $($_.Exception.Message)" }
-        }
-    } else {
-        $obj = [pscustomobject]@{}
     }
 
     foreach ($key in $Desired.Keys) {
@@ -82,7 +97,6 @@ function Set-AntigravityIdeExperience {
 
     return @{ Success = $true; Changed = $true; Path = $settingsPath; Backup = $backup; Output = "IDE experience updated" }
 }
-
 function Test-AgySafetyCapabilities {
     if (-not (Get-Command "agy" -ErrorAction SilentlyContinue)) {
         return @{ Success = $false; Sandbox = $false; PermissionGuard = $false; Output = "agy command not found" }
@@ -128,19 +142,26 @@ function Set-AgySandboxPersistent {
     }
 
     New-Item -ItemType Directory -Force -Path $settingsDir | Out-Null
-    $backup = $null
 
+    if (Test-Path -LiteralPath $settingsPath) {
+        try {
+            $obj = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
+        } catch {
+            return @{ Success = $false; Changed = $false; Path = $settingsPath; Backup = $null; Output = "Refused to rewrite non-JSON CLI settings: $($_.Exception.Message)" }
+        }
+
+        if (($obj.PSObject.Properties.Name -contains "enableTerminalSandbox") -and ($obj.enableTerminalSandbox -eq $true)) {
+            return @{ Success = $true; Changed = $false; Path = $settingsPath; Backup = $null; Output = "enableTerminalSandbox already true" }
+        }
+    } else {
+        $obj = [pscustomobject]@{}
+    }
+
+    $backup = $null
     if (Test-Path -LiteralPath $settingsPath) {
         $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
         $backup = "$settingsPath.backup-$stamp"
         Copy-Item -LiteralPath $settingsPath -Destination $backup -Force
-        try {
-            $obj = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
-        } catch {
-            return @{ Success = $false; Changed = $false; Path = $settingsPath; Backup = $backup; Output = "Refused to rewrite non-JSON CLI settings: $($_.Exception.Message)" }
-        }
-    } else {
-        $obj = [pscustomobject]@{}
     }
 
     Set-JsonProperty -Object $obj -Name "enableTerminalSandbox" -Value $true
