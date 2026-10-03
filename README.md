@@ -11,7 +11,7 @@ A careful Windows installer that prepares Antigravity for local thesis, skripsi,
   <img src="assets/terminal-preview.svg" alt="Antigravity Research Kit installer terminal preview" width="100%">
 </p>
 
-> **Runtime-aligned preview.** `START.cmd` opens Windows Terminal in maximized + focus mode when available, then runs the same step/progress/status/action-panel flow shown here. The installer logic remains the verified detect/skip/install engine.
+> **Runtime-faithful preview.** This image mirrors the actual `START.cmd` flow: Windows Terminal maximized + focus mode, vertical STEP 1/6 to 6/6 progress, status colors, completion card, and the post-install action panel.
 
 ## Download
 
@@ -50,20 +50,21 @@ See [QUICKSTART.md](QUICKSTART.md) for the short guide.
 
 ## Beginner launchers
 
-- `INSTALL.bat` â€” first install or safe rerun
-- `VERIFY.bat` â€” read-only health check
-- `REPAIR.bat` â€” reapply missing managed pieces then verify
-- `ROLLBACK-MANAGED-SETUP.bat` â€” restore managed settings/PATH and remove the Rafdi pack/launcher without uninstalling Antigravity itself
+- `START.cmd` - recommended premium launcher; opens Windows Terminal maximized + focus mode when available.
+- `INSTALL.bat` - first install or safe rerun
+- `VERIFY.bat` - read-only health check
+- `REPAIR.bat` - reapply missing managed pieces then verify
+- `ROLLBACK-MANAGED-SETUP.bat` - restore managed settings/PATH and remove the Rafdi pack/launcher without uninstalling Antigravity itself
 
 ## How the research pack works
 
 The pack uses progressive disclosure so the AI is not flooded with every instruction all the time.
 
-- **Research** â€” broad academic research with source tracing.
-- **Document** â€” local manuscript work and layout/formatting.
-- **Reviewer** â€” strict academic QA.
-- **Document Style Learning** â€” learns layout rules from a sample or official guideline.
-- **Evidence Tracing** â€” keeps claims connected to verifiable references.
+- **Research** - broad academic research with source tracing.
+- **Document** - local manuscript work and layout/formatting.
+- **Reviewer** - strict academic QA.
+- **Document Style Learning** - learns layout rules from a sample or official guideline.
+- **Evidence Tracing** - keeps claims connected to verifiable references.
 
 ## Release
 
