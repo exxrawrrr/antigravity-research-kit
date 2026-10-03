@@ -127,13 +127,13 @@ function Install-AgySafeLauncher {
 
     if (Test-Path -LiteralPath $path) {
         $existing = Get-Content -LiteralPath $path -Raw
-        if ($existing -eq $content) {
+        if ($existing.TrimEnd([char]13,[char]10) -eq $content.TrimEnd([char]13,[char]10)) {
             return @{ Success = $true; Path = $path; Changed = $false; Output = "Safe CLI launcher already correct" }
         }
     }
 
     New-Item -ItemType Directory -Force -Path $bin | Out-Null
-    Set-Content -LiteralPath $path -Value $content -Encoding ASCII
+    Set-Content -LiteralPath $path -Value $content -Encoding ASCII -NoNewline
 
     return @{ Success = (Test-Path -LiteralPath $path); Path = $path; Changed = $true; Output = "Safe CLI launcher created" }
 }
