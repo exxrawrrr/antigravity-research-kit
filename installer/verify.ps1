@@ -87,6 +87,11 @@ if (Test-Path -LiteralPath $safePath) {
     $failed += "agy-safe missing"
 }
 
+$managedBin = Split-Path -Parent $safePath
+$userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+$pathEntries = @($userPath -split ";" | ForEach-Object { $_.TrimEnd("\") })
+Require ($pathEntries -contains $managedBin.TrimEnd("\")) "agy-safe is available on user PATH." "Managed agy-safe bin is not registered on user PATH."
+
 Write-Section "Rafdi Academic Research Pack"
 
 Require (Test-RafdiAcademicPackInstalled) "Academic pack installed." "Academic pack is not installed."
