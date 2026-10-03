@@ -1,21 +1,19 @@
-# Antigravity Research Kit v0.1.1
+# Antigravity Research Kit v0.1.2
 
-Premium terminal UX release for Antigravity setup + Rafdi Academic Research Pack.
+Encoding-safe premium terminal hotfix.
 
 Made by Rafdi D. Ulhaq / @exxrawrrr.
 
-## New in v0.1.1
-- New recommended START.cmd launcher.
-- Opens Windows Terminal maximized + focus mode when wt.exe is available.
-- Safe fallback when Windows Terminal is unavailable.
-- Shared premium TUI renderer with big branding, gold/amber sections, colored status states, overall step progress, package progress, completion cards, and a live user-action panel.
-- User actions after install: verify, open Antigravity, repair, or close.
-- INSTALL.bat remains available for fallback/headless workflows.
-- Existing detect/skip/install, sandbox, permission-first, credential, and research-pack safety contracts remain unchanged.
-- Release ZIP now includes START.cmd.
+## Fixed in v0.1.2
+- Restores the premium block-letter EXXRAWRRR banner.
+- Restores rounded terminal panels and block/shade progress bars.
+- Prevents mojibake on Windows PowerShell 5.1 by keeping the renderer source ASCII-safe and creating rich glyphs from Unicode codepoints at runtime.
+- Keeps Windows Terminal maximized + focus mode through START.cmd.
+- Keeps the same detect/skip/install, sandbox, permission-first, credential, and academic-pack safety contracts.
+- No reinstall is required just to verify an existing setup; use VERIFY.bat or the verify action.
 
 ## Install
-1. Download Antigravity-Research-Kit-v0.1.1.zip.
+1. Download Antigravity-Research-Kit-v0.1.2.zip.
 2. Extract the ZIP completely.
 3. Double-click START.cmd.
 4. Keep the terminal open while installation is running.
