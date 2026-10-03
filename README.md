@@ -11,7 +11,7 @@ A careful Windows installer that prepares Antigravity for local thesis, skripsi,
   <img src="assets/terminal-preview.svg" alt="Antigravity Research Kit installer terminal preview" width="100%">
 </p>
 
-> Preview ini dirender dari **output real clean-Windows acceptance v0.1.0**. Jadi bukan mockup random: status install, theme, sandbox, dan academic pack-nya berasal dari installer yang benar-benar lolos gate.
+> **Premium README preview — Phase A.** Status yang ditampilkan diambil dari **clean-Windows acceptance v0.1.0 yang benar-benar PASS**. Visualnya dibuat Hermes-inspired tetapi original; runtime terminal installer belum diubah pada phase ini.
 
 ## Download
 
