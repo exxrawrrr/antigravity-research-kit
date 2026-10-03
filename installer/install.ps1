@@ -205,8 +205,10 @@ try {
     if ($safeLauncher.Success) {
         if ($DryRun) {
             Write-Status INFO "Would create agy-safe launcher at $($safeLauncher.Path)."
-        } else {
+        } elseif ($safeLauncher.Changed) {
             Write-Status OK "agy-safe launcher created at $($safeLauncher.Path)."
+        } else {
+            Write-Status SKIP "agy-safe launcher already correct."
         }
 
         $safeBin = Split-Path -Parent $safeLauncher.Path
