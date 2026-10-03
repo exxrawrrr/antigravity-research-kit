@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "made_by": "Rafdi D. Ulhaq",
+  "packages": [
+    {
+      "name": "Antigravity",
+      "id": "Google.Antigravity",
+      "required": true
+    },
+    {
+      "name": "Antigravity IDE",
+      "id": "Google.AntigravityIDE",
+      "required": true
+    },
+    {
+      "name": "Antigravity CLI",
+      "id": "Google.AntigravityCLI",
+      "required": true
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+# Local runtime artifacts
+.logs/
+*.log
+*.tmp
+*.bak
+*.backup-*
+
+# Release artifacts
+dist/
+*.zip
+
+# Local test workspace
+.test/

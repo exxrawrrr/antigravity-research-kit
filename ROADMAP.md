@@ -10,12 +10,12 @@ GitHub is the source of truth. GROWTH is only the verified baseline/test machine
 - [x] Safety model drafted
 
 ## Phase 1 — Installer Engine
-- [ ] `INSTALL.bat` launcher
-- [ ] PowerShell engine
-- [ ] terminal UI / progress output
-- [ ] detect / skip / install / update logic
-- [ ] logging and exit codes
-- [ ] no-destructive-overwrite guard
+- [x] `INSTALL.bat` launcher
+- [x] PowerShell engine
+- [x] terminal UI / progress output
+- [x] detect / skip / install logic (update remains explicit, not automatic)
+- [x] logging and exit codes
+- [x] no-destructive-overwrite baseline (Phase 4 extends backup/rollback)
 
 ## Phase 2 — Antigravity Parity
 - [ ] Antigravity app / IDE / CLI
