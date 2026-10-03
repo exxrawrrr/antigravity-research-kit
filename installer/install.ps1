@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [switch]$DryRun,
     [switch]$NoPause
@@ -25,7 +25,7 @@ try {
     Write-Banner
     Log "Installer started. DryRun=$DryRun"
 
-    Write-Section "System Check"
+    Write-StepHeader -Number 1 -Total 6 -Title "System Check" -Subtitle "Platform, package manager, and free-space preflight"
 
     $platform = [System.Environment]::OSVersion.Platform
     if ($platform -ne [System.PlatformID]::Win32NT) {
@@ -58,7 +58,7 @@ try {
     $manifest = Get-Content -LiteralPath $ManifestPath -Raw | ConvertFrom-Json
     $packages = @($manifest.packages)
 
-    Write-Section "Antigravity"
+    Write-StepHeader -Number 2 -Total 6 -Title "Antigravity" -Subtitle "Core app, IDE, and CLI package state"
     $done = 0
     $failed = @()
 
@@ -103,7 +103,7 @@ try {
     $null = Refresh-ProcessPath
     Log "Process PATH refreshed after core package phase."
 
-    Write-Section "IDE Experience"
+    Write-StepHeader -Number 3 -Total 6 -Title "IDE Experience" -Subtitle "Theme, icons, and managed editor settings"
 
     if (-not (Test-Path -LiteralPath $IdeManifestPath)) {
         Write-Status FAIL "IDE manifest is missing."
@@ -173,7 +173,7 @@ try {
         }
     }
 
-    Write-Section "Safety Defaults"
+    Write-StepHeader -Number 4 -Total 6 -Title "Safety Defaults" -Subtitle "Sandbox and permission-first launcher behavior"
 
     $safety = Test-AgySafetyCapabilities
     Log ("AGY SAFETY: " + $safety.Output)
@@ -235,7 +235,7 @@ try {
         $failed += "agy-safe launcher"
     }
 
-    Write-Section "Rafdi Academic Research Pack"
+    Write-StepHeader -Number 5 -Total 6 -Title "Rafdi Academic Research Pack" -Subtitle "Lazy-loaded research, document, and reviewer skills"
 
     $packSource = Get-RafdiAcademicPackSource -Root $Root
     $packResult = Install-RafdiAcademicPack -Source $packSource -DryRun:$DryRun
@@ -256,7 +256,7 @@ try {
         $failed += "Rafdi Academic Research Pack"
     }
 
-    Write-Section "Installer Verification"
+    Write-StepHeader -Number 6 -Total 6 -Title "Installer Verification" -Subtitle "Final install gate before handoff"
     if ($failed.Count -gt 0) {
         Write-Status FAIL ("Failed/uncertain components: " + ($failed -join ", "))
         Log ("Phase 1 failed components: " + ($failed -join ", "))
@@ -273,12 +273,12 @@ try {
     Write-Status INFO "Academic pack uses progressive disclosure; only relevant skills should load."
     Log "Phase 1 completed successfully."
 
-    Write-Host ""
-    Write-Host "  ============================================================" -ForegroundColor DarkGray
-    Write-Host "  ANTIGRAVITY BASE SETUP COMPLETE" -ForegroundColor Green
-    Write-Host "  made by Rafdi D. Ulhaq" -ForegroundColor DarkYellow
-    Write-Host "  Log: $LogPath" -ForegroundColor Gray
-    Write-Host "  ============================================================" -ForegroundColor DarkGray
+    $completionDetails = @(
+        "Core apps + IDE experience + safety defaults verified",
+        "Rafdi Academic Research Pack: 5 lazy-loaded skills",
+        "Log: $LogPath"
+    )
+    Write-CompletionCard -Title "Installation Complete" -Subtitle "Antigravity Research Environment is ready." -Details $completionDetails -State Success
 
     exit 0
 }

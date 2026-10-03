@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param()
 
 $ErrorActionPreference = "Stop"
@@ -23,7 +23,7 @@ function Require([bool]$Condition, [string]$Ok, [string]$Bad) {
 }
 
 Write-Banner
-Write-Section "Read-Only Verification"
+Write-StepHeader -Number 1 -Total 5 -Title "Read-Only Verification" -Subtitle "Core package health without mutations"
 
 $platform = [System.Environment]::OSVersion.Platform
 Require ($platform -eq [System.PlatformID]::Win32NT) "Windows detected." "Windows was not detected."
@@ -35,7 +35,7 @@ foreach ($pkg in @($packageManifest.packages)) {
     Require (Test-WingetPackageInstalled -Id ([string]$pkg.id)) "$($pkg.name) installed." "$($pkg.name) is missing."
 }
 
-Write-Section "IDE Experience"
+Write-StepHeader -Number 2 -Total 5 -Title "IDE Experience" -Subtitle "Extensions and selected appearance"
 
 $ideManifest = Get-Content (Join-Path $Root "config\ide.json") -Raw | ConvertFrom-Json
 $ideCli = Get-AntigravityIdeCli
@@ -60,7 +60,7 @@ if (Test-Path -LiteralPath $ideSettings) {
     $failed += "IDE settings missing"
 }
 
-Write-Section "Safety Defaults"
+Write-StepHeader -Number 3 -Total 5 -Title "Safety Defaults" -Subtitle "Sandbox, permission flow, and safe launcher"
 
 $safety = Test-AgySafetyCapabilities
 Require $safety.Success "agy safety flags verified." "agy safety capabilities were not verified."
@@ -93,7 +93,7 @@ $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
 $pathEntries = @($userPath -split ";" | ForEach-Object { $_.TrimEnd("\") })
 Require ($pathEntries -contains $managedBin.TrimEnd("\")) "agy-safe is available on user PATH." "Managed agy-safe bin is not registered on user PATH."
 
-Write-Section "Rafdi Academic Research Pack"
+Write-StepHeader -Number 4 -Total 5 -Title "Rafdi Academic Research Pack" -Subtitle "Academic skills and native pack validation"
 
 Require (Test-RafdiAcademicPackInstalled) "Academic pack installed." "Academic pack is not installed."
 
@@ -101,13 +101,17 @@ $packSource = Get-RafdiAcademicPackSource -Root $Root
 $valid = Test-RafdiAcademicPackValid -Source $packSource
 Require $valid.Success "Bundled academic pack validates natively." "Bundled academic pack validation failed."
 
-Write-Section "Verification Result"
+Write-StepHeader -Number 5 -Total 5 -Title "Verification Result" -Subtitle "Final readiness decision"
 
 if ($failed.Count -eq 0) {
     Write-Status OK "All required components passed."
-    Write-Host ""
-    Write-Host "  READY FOR LOCAL ACADEMIC WORK" -ForegroundColor Green
-    Write-Host "  made by Rafdi D. Ulhaq" -ForegroundColor DarkYellow
+    $verificationDetails = @(
+        "Antigravity + IDE + CLI verified",
+        "Tokyo Night Storm + Material Icon Theme verified",
+        "Sandbox + permission-first defaults verified",
+        "Rafdi Academic Research Pack verified"
+    )
+    Write-CompletionCard -Title "Ready for Local Academic Work" -Subtitle "Verification passed. Your research environment is healthy." -Details $verificationDetails -State Success
     exit 0
 }
 

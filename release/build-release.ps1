@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$Version = "0.1.0-rc1"
 )
@@ -18,6 +18,7 @@ if (Test-Path -LiteralPath $Checksum) { Remove-Item -LiteralPath $Checksum -Forc
 New-Item -ItemType Directory -Force -Path $Stage | Out-Null
 
 $include = @(
+    "START.cmd",
     "INSTALL.bat",
     "VERIFY.bat",
     "REPAIR.bat",

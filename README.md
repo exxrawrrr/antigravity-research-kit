@@ -11,7 +11,7 @@ A careful Windows installer that prepares Antigravity for local thesis, skripsi,
   <img src="assets/terminal-preview.svg" alt="Antigravity Research Kit installer terminal preview" width="100%">
 </p>
 
-> **Premium README preview — Phase A.** Status yang ditampilkan diambil dari **clean-Windows acceptance v0.1.0 yang benar-benar PASS**. Visualnya dibuat Hermes-inspired tetapi original; runtime terminal installer belum diubah pada phase ini.
+> **Runtime-aligned preview.** `START.cmd` opens Windows Terminal in maximized + focus mode when available, then runs the same step/progress/status/action-panel flow shown here. The installer logic remains the verified detect/skip/install engine.
 
 ## Download
 
@@ -19,7 +19,7 @@ Use the latest GitHub Release:
 
 **https://github.com/exxrawrrr/antigravity-research-kit/releases/latest**
 
-For non-developers: download the ZIP, extract it completely, then double-click `INSTALL.bat`.
+For non-developers: download the ZIP, extract it completely, then double-click **`START.cmd`**. It opens the premium Windows Terminal flow when available. `INSTALL.bat` remains the fallback/headless launcher.
 
 See [QUICKSTART.md](QUICKSTART.md) for the short guide.
 
@@ -50,24 +50,24 @@ See [QUICKSTART.md](QUICKSTART.md) for the short guide.
 
 ## Beginner launchers
 
-- `INSTALL.bat` — first install or safe rerun
-- `VERIFY.bat` — read-only health check
-- `REPAIR.bat` — reapply missing managed pieces then verify
-- `ROLLBACK-MANAGED-SETUP.bat` — restore managed settings/PATH and remove the Rafdi pack/launcher without uninstalling Antigravity itself
+- `INSTALL.bat` â€” first install or safe rerun
+- `VERIFY.bat` â€” read-only health check
+- `REPAIR.bat` â€” reapply missing managed pieces then verify
+- `ROLLBACK-MANAGED-SETUP.bat` â€” restore managed settings/PATH and remove the Rafdi pack/launcher without uninstalling Antigravity itself
 
 ## How the research pack works
 
 The pack uses progressive disclosure so the AI is not flooded with every instruction all the time.
 
-- **Research** — broad academic research with source tracing.
-- **Document** — local manuscript work and layout/formatting.
-- **Reviewer** — strict academic QA.
-- **Document Style Learning** — learns layout rules from a sample or official guideline.
-- **Evidence Tracing** — keeps claims connected to verifiable references.
+- **Research** â€” broad academic research with source tracing.
+- **Document** â€” local manuscript work and layout/formatting.
+- **Reviewer** â€” strict academic QA.
+- **Document Style Learning** â€” learns layout rules from a sample or official guideline.
+- **Evidence Tracing** â€” keeps claims connected to verifiable references.
 
 ## Release
 
-Current stable line: **v0.1.0**.
+Current stable line: **v0.1.1**.
 
 Release archives include an internal SHA256 manifest and a separate SHA256 checksum file for the ZIP.
 

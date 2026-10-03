@@ -1,13 +1,13 @@
-# Quick Start — Antigravity Research Kit
+# Quick Start â€” Antigravity Research Kit
 
 Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 
 ## For friends / non-developers
 
 1. Open the latest release: https://github.com/exxrawrrr/antigravity-research-kit/releases/latest
-2. Download **`Antigravity-Research-Kit-v0.1.0.zip`**.
+2. Download **`Antigravity-Research-Kit-v0.1.1.zip`**.
 3. Extract the ZIP completely. Do not run it from inside the compressed archive.
-4. Double-click **`INSTALL.bat`**.
+4. Double-click **`START.cmd`**. Windows Terminal opens maximized + focus mode when available; otherwise the launcher falls back safely.
 5. Keep the terminal open until it clearly reports completion or an error.
 6. If Antigravity asks you to sign in, complete the official sign-in flow yourself.
 7. Double-click **`VERIFY.bat`**. A healthy setup ends with **READY FOR LOCAL ACADEMIC WORK**.
@@ -25,20 +25,20 @@ Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 
 ## Research pack
 
-- **Research role-skill** — broad academic research with source tracing.
-- **Document role-skill** — local manuscript formatting/engineering.
-- **Reviewer role-skill** — strict academic QA.
-- **Document Style Learning** — learns formatting rules from a sample or official guideline.
-- **Evidence Tracing** — keeps claims linked to verifiable sources.
+- **Research role-skill** â€” broad academic research with source tracing.
+- **Document role-skill** â€” local manuscript formatting/engineering.
+- **Reviewer role-skill** â€” strict academic QA.
+- **Document Style Learning** â€” learns formatting rules from a sample or official guideline.
+- **Evidence Tracing** â€” keeps claims linked to verifiable sources.
 
 Every Rafdi-authored skill contains **Made by Rafdi D. Ulhaq**.
 
 ## Useful launchers
 
-- `INSTALL.bat` — initial setup / safe rerun.
-- `VERIFY.bat` — read-only health check.
-- `REPAIR.bat` — reapply missing managed pieces, then verify.
-- `ROLLBACK-MANAGED-SETUP.bat` — restore installer-managed settings/PATH and remove the Rafdi pack/launcher. It does **not** uninstall the Antigravity apps or third-party extensions.
+- `INSTALL.bat` â€” initial setup / safe rerun.
+- `VERIFY.bat` â€” read-only health check.
+- `REPAIR.bat` â€” reapply missing managed pieces, then verify.
+- `ROLLBACK-MANAGED-SETUP.bat` â€” restore installer-managed settings/PATH and remove the Rafdi pack/launcher. It does **not** uninstall the Antigravity apps or third-party extensions.
 
 ## Important
 
@@ -49,4 +49,4 @@ Every Rafdi-authored skill contains **Made by Rafdi D. Ulhaq**.
 
 ## Release status
 
-**v0.1.0** is the first public usable release.
+**v0.1.1** adds the premium Windows Terminal TUI launcher while preserving the v0.1.0 installer and safety contract.
