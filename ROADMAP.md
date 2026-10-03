@@ -23,12 +23,12 @@ GitHub is the source of truth. GROWTH is only the verified baseline/test machine
 - [x] Material Icon Theme
 - [x] verified sandbox / permission-first behavior
 - [x] verification gate on GROWTH + isolated TEMP profile## Phase 3 — Rafdi Academic Research Pack
-- [ ] Research Agent
-- [ ] Document Agent
-- [ ] Reviewer Agent
-- [ ] modular research + document skills
-- [ ] evidence/source preservation
-- [ ] document-style learning profile
+- [x] Research role-skill (lazy-loaded)
+- [x] Document role-skill (lazy-loaded)
+- [x] Reviewer role-skill (lazy-loaded)
+- [x] modular helper skills (Document Style Learning + Evidence Tracing)
+- [x] evidence/source preservation rules
+- [x] document-style learning profile workflow
 
 ## Phase 4 — UX, Safety & Repair
 - [ ] branded terminal

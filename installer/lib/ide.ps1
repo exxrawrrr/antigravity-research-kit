@@ -116,3 +116,37 @@ function Install-AgySafeLauncher {
 
     return @{ Success = (Test-Path -LiteralPath $path); Path = $path; Changed = $true; Output = "Safe CLI launcher created" }
 }
+
+function Set-AgySandboxPersistent {
+    param([switch]$DryRun)
+
+    $settingsDir = Join-Path $env:USERPROFILE ".gemini\antigravity-cli"
+    $settingsPath = Join-Path $settingsDir "settings.json"
+
+    if ($DryRun) {
+        return @{ Success = $true; Changed = $false; Path = $settingsPath; Backup = $null; Output = "DRY-RUN: enableTerminalSandbox=true" }
+    }
+
+    New-Item -ItemType Directory -Force -Path $settingsDir | Out-Null
+    $backup = $null
+
+    if (Test-Path -LiteralPath $settingsPath) {
+        $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+        $backup = "$settingsPath.backup-$stamp"
+        Copy-Item -LiteralPath $settingsPath -Destination $backup -Force
+        try {
+            $obj = Get-Content -LiteralPath $settingsPath -Raw | ConvertFrom-Json
+        } catch {
+            return @{ Success = $false; Changed = $false; Path = $settingsPath; Backup = $backup; Output = "Refused to rewrite non-JSON CLI settings: $($_.Exception.Message)" }
+        }
+    } else {
+        $obj = [pscustomobject]@{}
+    }
+
+    Set-JsonProperty -Object $obj -Name "enableTerminalSandbox" -Value $true
+    $json = $obj | ConvertTo-Json -Depth 20
+    Set-Content -LiteralPath $settingsPath -Value $json -Encoding UTF8
+
+    return @{ Success = $true; Changed = $true; Path = $settingsPath; Backup = $backup; Output = "enableTerminalSandbox=true" }
+}
+

@@ -11,6 +11,7 @@ $Root = Split-Path -Parent $PSScriptRoot
 . (Join-Path $PSScriptRoot "lib\ui.ps1")
 . (Join-Path $PSScriptRoot "lib\common.ps1")
 . (Join-Path $PSScriptRoot "lib\ide.ps1")
+. (Join-Path $PSScriptRoot "lib\research-pack.ps1")
 
 $LogPath = New-InstallLog
 $ManifestPath = Join-Path $Root "config\packages.json"
@@ -179,6 +180,22 @@ try {
         $failed += "agy safety"
     }
 
+    $sandboxSetting = Set-AgySandboxPersistent -DryRun:$DryRun
+    Log ("SANDBOX SETTING success={0} path={1} backup={2} output={3}" -f $sandboxSetting.Success, $sandboxSetting.Path, $sandboxSetting.Backup, $sandboxSetting.Output)
+    if ($sandboxSetting.Success) {
+        if ($DryRun) {
+            Write-Status INFO "Would persist enableTerminalSandbox=true."
+        } else {
+            Write-Status OK "Persistent terminal sandbox enabled."
+            if ($sandboxSetting.Backup) {
+                Write-Status INFO "Previous CLI settings backed up to $($sandboxSetting.Backup)"
+            }
+        }
+    } else {
+        Write-Status FAIL "Could not persist terminal sandbox safely: $($sandboxSetting.Output)"
+        $failed += "persistent sandbox"
+    }
+
     $safeLauncher = Install-AgySafeLauncher -DryRun:$DryRun
     Log ("SAFE LAUNCHER success={0} path={1} output={2}" -f $safeLauncher.Success, $safeLauncher.Path, $safeLauncher.Output)
     if ($safeLauncher.Success) {
@@ -190,6 +207,27 @@ try {
     } else {
         Write-Status FAIL "Could not create agy-safe launcher."
         $failed += "agy-safe launcher"
+    }
+
+    Write-Section "Rafdi Academic Research Pack"
+
+    $packSource = Get-RafdiAcademicPackSource -Root $Root
+    $packResult = Install-RafdiAcademicPack -Source $packSource -DryRun:$DryRun
+    Log ("ACADEMIC PACK success={0} exit={1} skipped={2} output={3}" -f $packResult.Success, $packResult.ExitCode, $packResult.Skipped, $packResult.Output)
+
+    if ($packResult.Success) {
+        if ($packResult.Skipped) {
+            Write-Status SKIP "Rafdi Academic Research Pack already installed."
+        } elseif ($DryRun) {
+            Write-Status INFO "Would install Rafdi Academic Research Pack (5 lazy-loaded skills)."
+        } else {
+            Write-Status OK "Rafdi Academic Research Pack installed."
+        }
+        Write-Status INFO "Includes 3 role-skills: Research, Document, Reviewer."
+        Write-Status INFO "Includes 2 helper skills: Document Style Learning, Evidence Tracing."
+    } else {
+        Write-Status FAIL "Academic pack installation/validation failed."
+        $failed += "Rafdi Academic Research Pack"
     }
 
     Write-Section "Installer Verification"
@@ -206,7 +244,7 @@ try {
         Write-Status INFO "DRY-RUN mode made no package changes."
     }
 
-    Write-Status INFO "Research agents and academic skills arrive in Phase 3."
+    Write-Status INFO "Academic pack uses progressive disclosure; only relevant skills should load."
     Log "Phase 1 completed successfully."
 
     Write-Host ""
