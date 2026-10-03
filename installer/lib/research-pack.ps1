@@ -15,9 +15,11 @@ function Test-RafdiAcademicPackValid([string]$Source) {
         return @{ Success = $false; ExitCode = 2; Output = "Pack source not found: $Source" }
     }
 
-    $quoted = '"' + $Source + '"'
-    $output = (& cmd.exe /d /c "agy plugin validate $quoted 2>&1" | Out-String)
+    $oldPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $output = (& agy plugin validate $Source 2>&1 | Out-String)
     $code = $LASTEXITCODE
+    $ErrorActionPreference = $oldPreference
     $ok = ($code -eq 0) -and ($output -match "(?i)skills\s*:\s*5 processed")
     return @{ Success = $ok; ExitCode = $code; Output = $output.Trim() }
 }
@@ -41,9 +43,11 @@ function Install-RafdiAcademicPack {
         return @{ Success = $true; ExitCode = 0; Output = "DRY-RUN: agy plugin install $Source"; Skipped = $false }
     }
 
-    $quoted = '"' + $Source + '"'
-    $output = (& cmd.exe /d /c "agy plugin install $quoted 2>&1" | Out-String)
+    $oldPreference = $ErrorActionPreference
+    $ErrorActionPreference = "Continue"
+    $output = (& agy plugin install $Source 2>&1 | Out-String)
     $code = $LASTEXITCODE
+    $ErrorActionPreference = $oldPreference
     $installed = Test-RafdiAcademicPackInstalled
 
     return @{ Success = $installed; ExitCode = $code; Output = $output.Trim(); Skipped = $false }
