@@ -7,6 +7,7 @@ Set-StrictMode -Version Latest
 $Root = Split-Path -Parent $PSScriptRoot
 . (Join-Path $PSScriptRoot "lib\ui.ps1")
 . (Join-Path $PSScriptRoot "lib\ui-rich.ps1")
+. (Join-Path $PSScriptRoot "lib\ui-color.ps1")
 
 $install = Join-Path $PSScriptRoot "install.ps1"
 $verify = Join-Path $PSScriptRoot "verify.ps1"
