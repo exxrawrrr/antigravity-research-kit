@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1040" viewBox="0 0 1600 1040">
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0%" stop-color="#07090c"/>
+    <stop offset="58%" stop-color="#111318"/>
+    <stop offset="100%" stop-color="#1c140e"/>
+  </linearGradient>
+  <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#FFD35D"/>
+    <stop offset="52%" stop-color="#F6B83C"/>
+    <stop offset="100%" stop-color="#D87938"/>
+  </linearGradient>
+  <linearGradient id="bar" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#FFD35D"/>
+    <stop offset="100%" stop-color="#F2A93A"/>
+  </linearGradient>
+  <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+    <feGaussianBlur stdDeviation="10" result="b"/>
+    <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="shadow" x="-20%" y="-20%" width="140%" height="160%">
+    <feDropShadow dx="0" dy="22" stdDeviation="30" flood-color="#000000" flood-opacity=".55"/>
+  </filter>
+</defs>
+
+<rect width="1600" height="1040" fill="#050506"/>
+<rect x="34" y="28" width="1532" height="980" rx="26" fill="url(#bg)" stroke="#6d452c" stroke-width="2" filter="url(#shadow)"/>
+
+<!-- header -->
+<text x="70" y="92" fill="#FFD35D" font-family="Consolas, monospace" font-size="18" font-weight="800">v0.1.2</text>
+<rect x="138" y="63" width="86" height="38" rx="10" fill="#FFD35D"/>
+<text x="181" y="88" text-anchor="middle" fill="#111318" font-family="Consolas, monospace" font-size="15" font-weight="900">STABLE</text>
+<text x="800" y="82" text-anchor="middle" fill="#F6B83C" font-family="Consolas, monospace" font-size="22" font-weight="900">ANTIGRAVITY x RESEARCH SKILL INSTALLER</text>
+<text x="800" y="111" text-anchor="middle" fill="#AFA79D" font-family="Consolas, monospace" font-size="14">local academic AI setup  |  skripsi  |  thesis  |  dissertation</text>
+<text x="1495" y="82" text-anchor="end" fill="#E7E1D7" font-family="Consolas, monospace" font-size="15">made by Rafdi D. Ulhaq</text>
+
+<line x1="70" y1="136" x2="1530" y2="136" stroke="#5f3a26" stroke-width="1"/>
+
+<!-- left main terminal -->
+<rect x="66" y="168" width="1046" height="728" rx="20" fill="#0b0d10" stroke="#D87938" stroke-width="1.5" filter="url(#glow)"/>
+<rect x="66" y="168" width="1046" height="52" rx="20" fill="#181b20"/>
+<rect x="66" y="198" width="1046" height="22" fill="#181b20"/>
+<circle cx="95" cy="194" r="7" fill="#FF5F57"/>
+<circle cx="119" cy="194" r="7" fill="#FEBB2E"/>
+<circle cx="143" cy="194" r="7" fill="#28C840"/>
+<text x="173" y="201" fill="#D8D1C7" font-family="Consolas, monospace" font-size="15">Antigravity Research Installer</text>
+
+<g font-family="Consolas, monospace">
+  <text x="103" y="286" fill="url(#gold)" font-size="61" font-weight="900" letter-spacing="2">EXXRAWRRR</text>
+  <text x="103" y="323" fill="#FFD35D" font-size="17" font-weight="800">ANTIGRAVITY x RESEARCH SKILL INSTALLER</text>
+  <text x="103" y="350" fill="#E7E1D7" font-size="15">made by Rafdi D. Ulhaq</text>
+  <text x="103" y="377" fill="#AFA79D" font-size="14">local academic AI setup  |  skripsi  |  thesis  |  dissertation</text>
+
+  <!-- session box -->
+  <rect x="101" y="406" width="976" height="98" rx="14" fill="#111418" stroke="#99613A" stroke-width="1.3"/>
+  <text x="125" y="438" fill="#FFD35D" font-size="15" font-weight="900">SESSION  VERIFY</text>
+  <text x="125" y="468" fill="#FF6B7A" font-size="15" font-weight="800">DO NOT CLOSE THIS WINDOW UNTIL THE PROCESS IS COMPLETE.</text>
+  <text x="125" y="493" fill="#AFA79D" font-size="14">Safety: permission-first  |  sandboxed terminal  |  no credential copying</text>
+
+  <!-- step 1 -->
+  <text x="103" y="552" fill="#AFA79D" font-size="14">STEP</text>
+  <text x="151" y="552" fill="#FFD35D" font-size="15" font-weight="900">01/05</text>
+  <text x="213" y="552" fill="#EEE8DE" font-size="16" font-weight="800">READ-ONLY VERIFICATION</text>
+  <text x="103" y="578" fill="#857E76" font-size="14">Core package health without mutations</text>
+  <text x="103" y="606" fill="#AFA79D" font-size="14">overall  [</text>
+  <rect x="211" y="592" width="310" height="18" rx="5" fill="#3b3028"/>
+  <rect x="211" y="592" width="42" height="18" rx="5" fill="url(#bar)"/>
+  <text x="534" y="606" fill="#D87938" font-size="14">]  0%</text>
+  <text x="103" y="641" fill="#7DD3A7" font-size="14" font-weight="900">[OK]</text>
+  <text x="158" y="641" fill="#EEE8DE" font-size="14">Windows detected.</text>
+  <text x="103" y="667" fill="#7DD3A7" font-size="14" font-weight="900">[OK]</text>
+  <text x="158" y="667" fill="#EEE8DE" font-size="14">WinGet detected.</text>
+  <text x="103" y="693" fill="#7DD3A7" font-size="14" font-weight="900">[OK]</text>
+  <text x="158" y="693" fill="#EEE8DE" font-size="14">Antigravity + IDE + CLI installed.</text>
+
+  <line x1="103" y1="723" x2="1075" y2="723" stroke="#5D4636" stroke-width="1"/>
+
+  <!-- step 2 -->
+  <text x="103" y="758" fill="#AFA79D" font-size="14">STEP</text>
+  <text x="151" y="758" fill="#FFD35D" font-size="15" font-weight="900">02/05</text>
+  <text x="213" y="758" fill="#EEE8DE" font-size="16" font-weight="800">IDE EXPERIENCE</text>
+  <text x="103" y="784" fill="#857E76" font-size="14">Extensions and selected appearance</text>
+  <text x="103" y="812" fill="#AFA79D" font-size="14">overall  [</text>
+  <rect x="211" y="798" width="310" height="18" rx="5" fill="#3b3028"/>
+  <rect x="211" y="798" width="92" height="18" rx="5" fill="url(#bar)"/>
+  <text x="534" y="812" fill="#D87938" font-size="14">] 20%</text>
+  <text x="103" y="847" fill="#7DD3A7" font-size="14" font-weight="900">[OK]</text>
+  <text x="158" y="847" fill="#EEE8DE" font-size="14">Tokyo Night Storm + Material Icon Theme selected.</text>
+</g>
+
+<!-- right feature rail -->
+<g font-family="Consolas, monospace">
+  <rect x="1140" y="168" width="390" height="146" rx="18" fill="#101319" stroke="#6c452d"/>
+  <text x="1171" y="204" fill="#FFD35D" font-size="16" font-weight="900">LIVE PROGRESS</text>
+  <text x="1171" y="236" fill="#AFA79D" font-size="14">Real-time stages with</text>
+  <text x="1171" y="258" fill="#AFA79D" font-size="14">clear progress + status.</text>
+  <rect x="1171" y="278" width="300" height="10" rx="5" fill="#3b3028"/>
+  <rect x="1171" y="278" width="208" height="10" rx="5" fill="url(#bar)"/>
+
+  <rect x="1140" y="332" width="390" height="146" rx="18" fill="#101319" stroke="#6c452d"/>
+  <text x="1171" y="368" fill="#7DD3A7" font-size="16" font-weight="900">CLEAR STATUS</text>
+  <text x="1171" y="401" fill="#EEE8DE" font-size="14">[OK]  mint green</text>
+  <text x="1171" y="425" fill="#FFD35D" font-size="14">[RUN] gold / amber</text>
+  <text x="1171" y="449" fill="#FF6B7A" font-size="14">[FAIL] coral red</text>
+
+  <rect x="1140" y="496" width="390" height="146" rx="18" fill="#101319" stroke="#6c452d"/>
+  <text x="1171" y="532" fill="#FFD35D" font-size="16" font-weight="900">SAFE + LOCAL</text>
+  <text x="1171" y="564" fill="#AFA79D" font-size="14">Permission-first.</text>
+  <text x="1171" y="588" fill="#AFA79D" font-size="14">Sandboxed terminal.</text>
+  <text x="1171" y="612" fill="#AFA79D" font-size="14">No credential copying.</text>
+
+  <rect x="1140" y="660" width="390" height="236" rx="18" fill="#101319" stroke="#6c452d"/>
+  <text x="1171" y="697" fill="#FFD35D" font-size="16" font-weight="900">READY STATE</text>
+  <text x="1171" y="732" fill="#7DD3A7" font-size="14" font-weight="900">READY FOR LOCAL</text>
+  <text x="1171" y="755" fill="#7DD3A7" font-size="14" font-weight="900">ACADEMIC WORK</text>
+  <text x="1171" y="793" fill="#EEE8DE" font-size="14">Antigravity + IDE + CLI</text>
+  <text x="1171" y="817" fill="#EEE8DE" font-size="14">Theme + sandbox verified</text>
+  <text x="1171" y="841" fill="#EEE8DE" font-size="14">Academic pack verified</text>
+  <text x="1171" y="873" fill="#857E76" font-size="13">Actual v0.1.2 runtime</text>
+</g>
+
+<!-- footer -->
+<rect x="66" y="924" width="1464" height="54" rx="15" fill="#17140f" stroke="#99613A"/>
+<text x="95" y="956" fill="#FFD35D" font-family="Consolas, monospace" font-size="15" font-weight="900">PREMIUM WINDOWS TERMINAL UX</text>
+<text x="418" y="956" fill="#AFA79D" font-family="Consolas, monospace" font-size="14">Designed from real v0.1.2 runtime captures on GROWTH</text>
+<text x="1500" y="956" text-anchor="end" fill="#E7E1D7" font-family="Consolas, monospace" font-size="14">exxrawrrr / Antigravity Research Kit</text>
+</svg>
