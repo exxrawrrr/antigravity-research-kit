@@ -119,18 +119,24 @@ function Install-AgySafeLauncher {
 
     $bin = Join-Path $env:LOCALAPPDATA "Rafdi\AntigravityResearchKit\bin"
     $path = Join-Path $bin "agy-safe.cmd"
+    $content = "@echo off`r`nREM Made by Rafdi D. Ulhaq`r`nagy --sandbox %*`r`n"
 
     if ($DryRun) {
         return @{ Success = $true; Path = $path; Changed = $false; Output = "DRY-RUN: create agy-safe.cmd" }
     }
 
+    if (Test-Path -LiteralPath $path) {
+        $existing = Get-Content -LiteralPath $path -Raw
+        if ($existing -eq $content) {
+            return @{ Success = $true; Path = $path; Changed = $false; Output = "Safe CLI launcher already correct" }
+        }
+    }
+
     New-Item -ItemType Directory -Force -Path $bin | Out-Null
-    $content = "@echo off`r`nREM Made by Rafdi D. Ulhaq`r`nagy --sandbox %*`r`n"
     Set-Content -LiteralPath $path -Value $content -Encoding ASCII
 
     return @{ Success = (Test-Path -LiteralPath $path); Path = $path; Changed = $true; Output = "Safe CLI launcher created" }
 }
-
 function Set-AgySandboxPersistent {
     param([switch]$DryRun)
 
