@@ -20,6 +20,7 @@ New-Item -ItemType Directory -Force -Path $Stage | Out-Null
 $include = @(
     "START.cmd",
     "INSTALL.bat",
+    "STATUS.cmd",
     "VERIFY.bat",
     "REPAIR.bat",
     "ROLLBACK-MANAGED-SETUP.bat",
@@ -28,6 +29,7 @@ $include = @(
     "SECURITY.md",
     "LICENSE",
     "VERSION",
+    "assets",
     "config",
     "installer",
     "pack"
