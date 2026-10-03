@@ -155,11 +155,13 @@ try {
             if ($experience.Success) {
                 if ($DryRun) {
                     Write-Status INFO "Would select Tokyo Night Storm + Material Icon Theme."
-                } else {
+                } elseif ($experience.Changed) {
                     Write-Status OK "Tokyo Night Storm + Material Icon Theme configured."
                     if ($experience.Backup) {
                         Write-Status INFO "Previous IDE settings backed up to $($experience.Backup)"
                     }
+                } else {
+                    Write-Status SKIP "Tokyo Night Storm + Material Icon Theme already configured."
                 }
             } else {
                 Write-Status FAIL "IDE settings were left unchanged: $($experience.Output)"
@@ -185,11 +187,13 @@ try {
     if ($sandboxSetting.Success) {
         if ($DryRun) {
             Write-Status INFO "Would persist enableTerminalSandbox=true."
-        } else {
+        } elseif ($sandboxSetting.Changed) {
             Write-Status OK "Persistent terminal sandbox enabled."
             if ($sandboxSetting.Backup) {
                 Write-Status INFO "Previous CLI settings backed up to $($sandboxSetting.Backup)"
             }
+        } else {
+            Write-Status SKIP "Persistent terminal sandbox already enabled."
         }
     } else {
         Write-Status FAIL "Could not persist terminal sandbox safely: $($sandboxSetting.Output)"
