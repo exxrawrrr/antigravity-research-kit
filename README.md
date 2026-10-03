@@ -68,7 +68,7 @@ The pack uses progressive disclosure so the AI is not flooded with every instruc
 
 ## Release
 
-Current stable line: **v0.1.1**.
+Current stable line: **v0.1.2**.
 
 Release archives include an internal SHA256 manifest and a separate SHA256 checksum file for the ZIP.
 
