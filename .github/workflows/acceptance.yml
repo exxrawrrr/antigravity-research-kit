@@ -115,6 +115,9 @@ jobs:
           foreach ($launcher in @('START.cmd','INSTALL.bat','STATUS.cmd','VERIFY.bat','REPAIR.bat','ROLLBACK-MANAGED-SETUP.bat')) {
             if (-not (Test-Path (Join-Path $root $launcher))) { throw "$launcher missing from standalone package" }
           }
+          if (-not (Test-Path (Join-Path $root 'assets\terminal-preview-final.webp'))) {
+            throw 'README terminal preview asset missing from standalone package'
+          }
 
           $manifest = Join-Path $root 'MANIFEST-SHA256.txt'
           $lines = Get-Content $manifest | Where-Object { $_ -match '^[0-9a-fA-F]{64}\s{2}' }
