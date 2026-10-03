@@ -1,4 +1,4 @@
-# Quick Start - Antigravity Research Kit
+# Quick Start — Antigravity Research Kit
 
 Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 
@@ -12,6 +12,8 @@ Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 6. If Antigravity asks you to sign in, complete the official sign-in flow yourself.
 7. Double-click **`VERIFY.bat`**. A healthy setup ends with **READY FOR LOCAL ACADEMIC WORK**.
 
+The current `main` branch also provides **`STATUS.cmd`** as a beginner-friendly alias for the same read-only check. It is included by the current release builder and will appear in the next tagged archive.
+
 ## What the installer does
 
 - Detects existing Antigravity, Antigravity IDE, and Antigravity CLI and skips them when already installed.
@@ -22,24 +24,28 @@ Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 - Keeps normal permission prompts enabled; it never enables dangerous auto-approval.
 - Adds the `agy-safe` launcher (`agy --sandbox`).
 - Installs **Rafdi Academic Research Pack** with 5 lazy-loaded skills.
+- Runs a final gate before reporting the environment ready.
 
 ## Research pack
 
-- **Research role-skill** - broad academic research with source tracing.
-- **Document role-skill** - local manuscript formatting/engineering.
-- **Reviewer role-skill** - strict academic QA.
-- **Document Style Learning** - learns formatting rules from a sample or official guideline.
-- **Evidence Tracing** - keeps claims linked to verifiable sources.
+- **Research role-skill** — broad academic research with source tracing.
+- **Document role-skill** — local manuscript formatting/engineering.
+- **Reviewer role-skill** — strict academic QA.
+- **Document Style Learning** — learns formatting rules from a sample or official guideline.
+- **Evidence Tracing** — keeps claims linked to verifiable sources.
 
 Every Rafdi-authored skill contains **Made by Rafdi D. Ulhaq**.
 
 ## Useful launchers
 
-- `START.cmd` - recommended premium launcher.
-- `INSTALL.bat` - initial setup / safe rerun.
-- `VERIFY.bat` - read-only health check.
-- `REPAIR.bat` - reapply missing managed pieces, then verify.
-- `ROLLBACK-MANAGED-SETUP.bat` - restore installer-managed settings/PATH and remove the Rafdi pack/launcher. It does **not** uninstall the Antigravity apps or third-party extensions.
+- **`START.cmd`** — recommended premium launcher.
+- **`INSTALL.bat`** — initial setup / safe rerun.
+- **`STATUS.cmd`** — current-main convenience alias for read-only verification.
+- **`VERIFY.bat`** — read-only health check.
+- **`REPAIR.bat`** — reapplies missing managed pieces, then verifies.
+- **`ROLLBACK-MANAGED-SETUP.bat`** — restores installer-managed settings/PATH and removes the Rafdi pack/launcher. It does **not** uninstall the Antigravity apps or third-party extensions.
+
+The root launchers hand off directly to the premium PowerShell renderer, so the user sees one coherent terminal UI rather than a legacy ASCII banner stacked above it.
 
 ## Important
 
@@ -47,7 +53,8 @@ Every Rafdi-authored skill contains **Made by Rafdi D. Ulhaq**.
 - Back up irreplaceable academic work independently; the installer never treats itself as your document backup system.
 - Formatting inferred from a sample document is a derived profile, not proof of an institution's official policy.
 - If a campus provides an official formatting guide, use that as the highest-priority reference.
+- `VERIFY.bat` and `STATUS.cmd` are read-only; use `REPAIR.bat` only when you actually want the managed setup reapplied.
 
 ## Release status
 
-**v0.1.2** adds the premium Windows Terminal TUI launcher while preserving the v0.1.0 installer and safety contract.
+**v0.1.2** is the latest packaged stable release. Current `main` contains post-v0.1.2 UX and CI hardening without falsely bumping the public version before a real tagged release exists.
