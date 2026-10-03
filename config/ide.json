@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "made_by": "Rafdi D. Ulhaq",
+  "extensions": [
+    {
+      "name": "Tokyo Night",
+      "id": "enkia.tokyo-night",
+      "observed_growth_version": "1.1.2"
+    },
+    {
+      "name": "Material Icon Theme",
+      "id": "pkief.material-icon-theme",
+      "observed_growth_version": "5.39.0"
+    }
+  ],
+  "settings": {
+    "workbench.colorTheme": "Tokyo Night Storm",
+    "workbench.iconTheme": "material-icon-theme"
+  },
+  "safe_cli": {
+    "name": "agy-safe",
+    "arguments": ["--sandbox"],
+    "forbidden_arguments": ["--dangerously-skip-permissions"]
+  }
+}

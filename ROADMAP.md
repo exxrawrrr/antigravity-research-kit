@@ -18,11 +18,11 @@ GitHub is the source of truth. GROWTH is only the verified baseline/test machine
 - [x] no-destructive-overwrite baseline (Phase 4 extends backup/rollback)
 
 ## Phase 2 — Antigravity Parity
-- [ ] Antigravity app / IDE / CLI
-- [ ] Tokyo Night extension + Storm selection
-- [ ] Material Icon Theme
-- [ ] verified sandbox / request-review settings
-- [ ] verification command## Phase 3 — Rafdi Academic Research Pack
+- [x] Antigravity app / IDE / CLI
+- [x] Tokyo Night extension + Storm selection
+- [x] Material Icon Theme
+- [x] verified sandbox / permission-first behavior
+- [x] verification gate on GROWTH + isolated TEMP profile## Phase 3 — Rafdi Academic Research Pack
 - [ ] Research Agent
 - [ ] Document Agent
 - [ ] Reviewer Agent
