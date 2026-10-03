@@ -76,6 +76,7 @@ jobs:
           }
           if ($code -ne 22) { throw "Expected missing-manifest exit 22, got $code" }
           Write-Host "FAILURE_PATH_OK exit=$code"
+          exit 0
 
       - name: Build release candidate
         shell: pwsh
