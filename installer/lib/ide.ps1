@@ -18,6 +18,31 @@ function Test-IdeExtensionInstalled([string]$ExtensionId) {
         Select-Object -First 1)
 }
 
+function Get-AntigravityIdeExe {
+    $expected = Join-Path $env:LOCALAPPDATA "Programs\Antigravity IDE\Antigravity IDE.exe"
+    if (Test-Path -LiteralPath $expected) { return $expected }
+    return $null
+}
+
+function Initialize-AntigravityIdeProfile {
+    $exe = Get-AntigravityIdeExe
+    if (-not $exe) {
+        return @{ Success = $false; Output = "Antigravity IDE executable not found for profile bootstrap" }
+    }
+
+    try {
+        $proc = Start-Process -FilePath $exe -ArgumentList @("--disable-extensions","--skip-welcome","--skip-release-notes") -PassThru
+        Start-Sleep -Seconds 8
+        if (-not $proc.HasExited) {
+            Stop-Process -Id $proc.Id -Force -ErrorAction SilentlyContinue
+            $proc.WaitForExit(5000) | Out-Null
+        }
+        return @{ Success = $true; Output = "Antigravity IDE profile bootstrap attempted" }
+    } catch {
+        return @{ Success = $false; Output = "Antigravity IDE profile bootstrap failed: $($_.Exception.Message)" }
+    }
+}
+
 function Install-IdeExtension {
     param(
         [string]$Cli,
@@ -29,10 +54,40 @@ function Install-IdeExtension {
         return @{ Success = $true; ExitCode = 0; Output = "DRY-RUN: install extension $ExtensionId" }
     }
 
+    $attempts = @()
+
     $output = (& $Cli --install-extension $ExtensionId --force 2>&1 | Out-String)
     $code = $LASTEXITCODE
-    $installed = Test-IdeExtensionInstalled -ExtensionId $ExtensionId
-    return @{ Success = $installed; ExitCode = $code; Output = $output.Trim() }
+    $attempts += "CLI exit=$code :: $($output.Trim())"
+    if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
+        return @{ Success = $true; ExitCode = $code; Output = ($attempts -join " | ") }
+    }
+
+    $exe = Get-AntigravityIdeExe
+    if ($exe) {
+        $exeOutput = (& $exe --install-extension $ExtensionId --force 2>&1 | Out-String)
+        $exeCode = $LASTEXITCODE
+        $attempts += "EXE exit=$exeCode :: $($exeOutput.Trim())"
+        if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
+            return @{ Success = $true; ExitCode = $exeCode; Output = ($attempts -join " | ") }
+        }
+    }
+
+    $registrationFailure = (($output -match "NOT registered") -or ($output -match "antigravityAnalytics") -or ($output -match "extensionManagementService"))
+    if ($registrationFailure) {
+        $bootstrap = Initialize-AntigravityIdeProfile
+        $attempts += "BOOTSTRAP :: $($bootstrap.Output)"
+        if ($bootstrap.Success) {
+            $retry = (& $Cli --install-extension $ExtensionId --force 2>&1 | Out-String)
+            $retryCode = $LASTEXITCODE
+            $attempts += "RETRY exit=$retryCode :: $($retry.Trim())"
+            if (Test-IdeExtensionInstalled -ExtensionId $ExtensionId) {
+                return @{ Success = $true; ExitCode = $retryCode; Output = ($attempts -join " | ") }
+            }
+        }
+    }
+
+    return @{ Success = $false; ExitCode = $code; Output = ($attempts -join " | ") }
 }
 
 function Set-JsonProperty {
