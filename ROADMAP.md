@@ -13,20 +13,22 @@ GitHub is the source of truth. GROWTH is only the verified baseline/test machine
 - [x] `INSTALL.bat` launcher
 - [x] PowerShell engine
 - [x] terminal UI / progress output
-- [x] detect / skip / install logic (update remains explicit, not automatic)
+- [x] detect / skip / install logic
 - [x] logging and exit codes
-- [x] no-destructive-overwrite baseline (Phase 4 extends backup/rollback)
+- [x] no-destructive-overwrite baseline
 
 ## Phase 2 — Antigravity Parity
 - [x] Antigravity app / IDE / CLI
 - [x] Tokyo Night extension + Storm selection
 - [x] Material Icon Theme
 - [x] verified sandbox / permission-first behavior
-- [x] verification gate on GROWTH + isolated TEMP profile## Phase 3 — Rafdi Academic Research Pack
+- [x] verification gate on GROWTH + isolated TEMP profile
+
+## Phase 3 — Rafdi Academic Research Pack
 - [x] Research role-skill (lazy-loaded)
 - [x] Document role-skill (lazy-loaded)
 - [x] Reviewer role-skill (lazy-loaded)
-- [x] modular helper skills (Document Style Learning + Evidence Tracing)
+- [x] modular helper skills: Document Style Learning + Evidence Tracing
 - [x] evidence/source preservation rules
 - [x] document-style learning profile workflow
 
@@ -37,15 +39,24 @@ GitHub is the source of truth. GROWTH is only the verified baseline/test machine
 - [x] read-only verifier + friendly diagnostics
 - [x] explicit "DO NOT CLOSE THIS WINDOW" state
 
-## Phase 5 — Clean-Machine Acceptance & v0.1
-- [ ] fresh Windows VM/sandbox test
-- [ ] rerun/idempotency test
-- [ ] partial-existing-install test
-- [ ] offline/failure recovery test
-- [ ] ZIP + SHA256
-- [ ] GitHub release v0.1.0
+## Phase 5 — Clean-Machine Acceptance
+- [x] clean Windows runner acceptance workflow
+- [x] real rerun / idempotency gate on GROWTH
+- [x] partial-existing-install behavior covered by detect/skip logic
+- [x] failure-path gate
+- [x] standalone ZIP + internal manifest + external SHA256
+- [x] release candidate artifact path
+
+## Phase 6 — Publish v0.1.0
+- [x] final version metadata
+- [x] beginner QUICKSTART
+- [x] release notes
+- [x] tag-driven GitHub Release workflow
+- [ ] merge final release branch
+- [ ] tag `v0.1.0`
+- [ ] publish GitHub Release assets
 
 ## Baseline observed on GROWTH — 3 Oct 2026
-Antigravity 2.19.1 · IDE 2.5.5 · CLI 1.2.14
+Antigravity 2.19.1 · IDE 2.5.5 · CLI 1.2.14.
 
-Installer logic must detect current versions instead of assuming these versions forever.
+Installer logic detects current state instead of assuming these versions forever.
