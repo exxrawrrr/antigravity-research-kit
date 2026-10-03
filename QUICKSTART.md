@@ -4,12 +4,13 @@ Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 
 ## For friends / non-developers
 
-1. Download the release ZIP.
-2. Extract the ZIP completely. Do not run it from inside the compressed archive.
-3. Double-click **`INSTALL.bat`**.
-4. Keep the terminal open until it clearly reports completion or an error.
-5. If Antigravity asks you to sign in, complete the official sign-in flow yourself.
-6. Double-click **`VERIFY.bat`**. A healthy setup ends with **READY FOR LOCAL ACADEMIC WORK**.
+1. Open the latest release: https://github.com/exxrawrrr/antigravity-research-kit/releases/latest
+2. Download **`Antigravity-Research-Kit-v0.1.0.zip`**.
+3. Extract the ZIP completely. Do not run it from inside the compressed archive.
+4. Double-click **`INSTALL.bat`**.
+5. Keep the terminal open until it clearly reports completion or an error.
+6. If Antigravity asks you to sign in, complete the official sign-in flow yourself.
+7. Double-click **`VERIFY.bat`**. A healthy setup ends with **READY FOR LOCAL ACADEMIC WORK**.
 
 ## What the installer does
 
@@ -44,7 +45,8 @@ Every Rafdi-authored skill contains **Made by Rafdi D. Ulhaq**.
 - This kit does not automate or store your Google/Antigravity login credentials.
 - Back up irreplaceable academic work independently; the installer never treats itself as your document backup system.
 - Formatting inferred from a sample document is a derived profile, not proof of an institution's official policy.
+- If a campus provides an official formatting guide, use that as the highest-priority reference.
 
 ## Release status
 
-`v0.1.0-rc1` is a **release candidate**. It passed real install, idempotency, rollback, repair, and verification gates on the GROWTH workstation. A fresh-machine acceptance test is still required before `v0.1.0` final.
+**v0.1.0** is the first public usable release.
