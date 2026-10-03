@@ -40,3 +40,45 @@ function Get-FreeSystemDriveGB {
     $drive = Get-PSDrive -Name $env:SystemDrive.TrimEnd(":") -ErrorAction Stop
     return [Math]::Round(($drive.Free / 1GB), 2)
 }
+
+function Ensure-UserPathEntry {
+    param(
+        [string]$Entry,
+        [switch]$DryRun
+    )
+
+    $full = [System.IO.Path]::GetFullPath($Entry).TrimEnd("\")
+    $userPath = [Environment]::GetEnvironmentVariable("Path", "User")
+    if ($null -eq $userPath) { $userPath = "" }
+
+    $entries = @($userPath -split ";" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
+    $exists = $false
+    foreach ($item in $entries) {
+        try {
+            if ([System.IO.Path]::GetFullPath($item).TrimEnd("\") -ieq $full) {
+                $exists = $true
+                break
+            }
+        } catch {}
+    }
+
+    if ($exists) {
+        return @{ Success = $true; Changed = $false; Backup = $null; Output = "PATH entry already present" }
+    }
+
+    if ($DryRun) {
+        return @{ Success = $true; Changed = $false; Backup = $null; Output = "DRY-RUN: append user PATH $full" }
+    }
+
+    $backupRoot = Join-Path $env:LOCALAPPDATA "Rafdi\AntigravityResearchKit\backups"
+    New-Item -ItemType Directory -Force -Path $backupRoot | Out-Null
+    $backup = Join-Path $backupRoot ("user-path-" + (Get-Date -Format "yyyyMMdd-HHmmss") + ".txt")
+    Set-Content -LiteralPath $backup -Value $userPath -Encoding UTF8
+
+    $newPath = if ([string]::IsNullOrWhiteSpace($userPath)) { $full } else { $userPath.TrimEnd(";") + ";" + $full }
+    [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
+    if (($env:Path -split ";") -notcontains $full) { $env:Path = $env:Path.TrimEnd(";") + ";" + $full }
+
+    return @{ Success = $true; Changed = $true; Backup = $backup; Output = "User PATH updated" }
+}
+
