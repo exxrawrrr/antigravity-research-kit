@@ -11,7 +11,7 @@ A careful Windows installer that prepares Antigravity for local thesis, skripsi,
   <img src="assets/terminal-preview.svg" alt="Antigravity Research Kit installer terminal preview" width="100%">
 </p>
 
-> **Runtime-faithful preview.** This image mirrors the actual `START.cmd` flow: Windows Terminal maximized + focus mode, vertical STEP 1/6 to 6/6 progress, status colors, completion card, and the post-install action panel.
+> **Premium runtime target.** `START.cmd` now uses the same charcoal + gold/amber + cream + mint palette shown here, with maximized/focus Windows Terminal, live steps, progress, completion state, and the post-install action panel.
 
 ## Download
 
@@ -68,7 +68,7 @@ The pack uses progressive disclosure so the AI is not flooded with every instruc
 
 ## Release
 
-Current stable line: **v0.1.1**.
+Current stable line: **v0.1.2**.
 
 Release archives include an internal SHA256 manifest and a separate SHA256 checksum file for the ZIP.
 
