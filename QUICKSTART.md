@@ -2,10 +2,20 @@
 
 Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 
-## For friends / non-developers
+## For friends / non-developers — CMD first
+
+Open normal Windows CMD, paste this one line, then press Enter:
+
+```bat
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Join-Path $env:TEMP 'EXXRAWRRR-GET.ps1'; iwr -UseBasicParsing 'https://raw.githubusercontent.com/exxrawrrr/antigravity-research-kit/main/GET-EXXRAWRRR.ps1' -OutFile $p -ErrorAction Stop; & $p"
+```
+
+You should see the EXXRAWRRR amber/gold banner, real progress milestones, SHA256 checks, and then the full terminal installer. Sign in directly to Google/Antigravity when prompted; this kit does not transfer credentials. Use only the official repository. An internet connection and compatible Windows App Installer/WinGet are required.
+
+### ZIP fallback
 
 1. Open the latest release: https://github.com/exxrawrrr/antigravity-research-kit/releases/latest
-2. Download **`Antigravity-Research-Kit-v0.1.2.zip`**.
+2. Download **`Antigravity-Research-Kit-v0.1.3.zip`**.
 3. Extract the ZIP completely. Do not run it from inside the compressed archive.
 4. Double-click **`START.cmd`**. Windows Terminal opens maximized + focus mode when available; otherwise the launcher falls back safely.
 5. Keep the terminal open until it clearly reports completion or an error.
@@ -59,4 +69,4 @@ The root launchers hand off directly to the premium PowerShell renderer, so the 
 
 ## Release status
 
-**v0.1.2** is the latest packaged stable release. Current `main` contains post-v0.1.2 UX and CI hardening without falsely bumping the public version before a real tagged release exists.
+**v0.1.3** is the latest packaged stable release. Current `main` contains post-v0.1.3 UX and CI hardening without falsely bumping the public version before a real tagged release exists.
