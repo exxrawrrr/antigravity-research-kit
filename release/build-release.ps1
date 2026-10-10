@@ -18,6 +18,7 @@ if (Test-Path -LiteralPath $Checksum) { Remove-Item -LiteralPath $Checksum -Forc
 New-Item -ItemType Directory -Force -Path $Stage | Out-Null
 
 $include = @(
+    "GET-EXXRAWRRR.ps1",
     "START.cmd",
     "INSTALL.bat",
     "STATUS.cmd",
@@ -26,6 +27,7 @@ $include = @(
     "ROLLBACK-MANAGED-SETUP.bat",
     "README.md",
     "QUICKSTART.md",
+    "FRIENDS-START.md",
     "SECURITY.md",
     "LICENSE",
     "VERSION",

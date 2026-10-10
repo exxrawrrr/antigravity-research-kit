@@ -96,10 +96,20 @@ try {
             }
         } else {
             Write-Status FAIL "$name installation failed with exit code $($result.ExitCode)."
+            if ($result.ExitCode -eq -1978335217) {
+                Write-Status WARN "WinGet source data is missing (0x8A15000F). Try updating App Installer or 'winget source update --name winget', then rerun START.cmd."
+            }
             $failed += $name
         }
 
         Write-ProgressLine -Done $done -Total $packages.Count
+    }
+
+    if ($failed.Count -gt 0) {
+        Write-Status FAIL "Required Antigravity packages are missing. Setup stopped before changing other settings."
+        Log ("Core packages failed: " + ($failed -join ", "))
+        Write-Host "  Log: $LogPath" -ForegroundColor Gray
+        exit 30
     }
 
     $null = Refresh-ProcessPath
@@ -181,13 +191,17 @@ try {
     Log ("AGY SAFETY: " + $safety.Output)
     if ($safety.Success) {
         Write-Status OK "agy supports terminal sandbox (--sandbox)."
-        Write-Status OK "Permission prompts stay ON; dangerous auto-approval is never enabled."
+        Write-Status OK "Kit does not enable dangerous auto-approval; actual prompts are controlled by Antigravity."
     } else {
         Write-Status FAIL "Required agy safety capabilities were not verified."
         $failed += "agy safety"
     }
 
-    $sandboxSetting = Set-AgySandboxPersistent -DryRun:$DryRun
+    $sandboxSetting = if ($safety.Success) {
+        Set-AgySandboxPersistent -DryRun:$DryRun
+    } else {
+        @{ Success = $false; Changed = $false; Path = ""; Backup = $null; Output = "Skipped: sandbox capability could not be verified" }
+    }
     Log ("SANDBOX SETTING success={0} path={1} backup={2} output={3}" -f $sandboxSetting.Success, $sandboxSetting.Path, $sandboxSetting.Backup, $sandboxSetting.Output)
     if ($sandboxSetting.Success) {
         if ($DryRun) {
@@ -205,7 +219,11 @@ try {
         $failed += "persistent sandbox"
     }
 
-    $safeLauncher = Install-AgySafeLauncher -DryRun:$DryRun
+    $safeLauncher = if ($safety.Success) {
+        Install-AgySafeLauncher -DryRun:$DryRun
+    } else {
+        @{ Success = $false; Changed = $false; Path = ""; Output = "Skipped: sandbox capability could not be verified" }
+    }
     Log ("SAFE LAUNCHER success={0} path={1} output={2}" -f $safeLauncher.Success, $safeLauncher.Path, $safeLauncher.Output)
     if ($safeLauncher.Success) {
         if ($DryRun) {

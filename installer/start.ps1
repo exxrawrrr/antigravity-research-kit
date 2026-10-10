@@ -71,6 +71,7 @@ while ($true) {
     Write-ActionPanel -Title "USER ACTION" -Items @(
         "[V] Verify installation",
         "[A] Open Antigravity",
+        "[H] Panduan skripsi / tesis / disertasi",
         "[R] Run repair",
         "[Q] Close terminal"
     )
@@ -92,6 +93,16 @@ while ($true) {
                 Write-Status OK "Antigravity launched."
             } else {
                 Write-Status WARN "Antigravity executable was not found."
+            }
+        }
+        "H" {
+            Write-Host ""
+            Write-Status INFO "Pilih satu tugas: Research (referensi), Document (format Word), atau Reviewer (cek revisi)."
+            Write-Status INFO "Panduan + prompt siap pakai ada di FRIENDS-START.md."
+            $guide = Join-Path $Root "FRIENDS-START.md"
+            if (Test-Path -LiteralPath $guide) {
+                try { Start-Process -FilePath "notepad.exe" -ArgumentList @($guide) | Out-Null }
+                catch { Write-Status WARN "Buka file ini manual: $guide" }
             }
         }
         "R" {

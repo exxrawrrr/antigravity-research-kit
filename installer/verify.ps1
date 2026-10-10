@@ -82,11 +82,14 @@ if (Test-Path -LiteralPath $cliSettings) {
 }
 
 $safePath = Join-Path $env:LOCALAPPDATA "Rafdi\AntigravityResearchKit\bin\agy-safe.cmd"
-if (Test-Path -LiteralPath $safePath) {
+$safeScriptPath = Join-Path $env:LOCALAPPDATA "Rafdi\AntigravityResearchKit\bin\agy-safe.ps1"
+if ((Test-Path -LiteralPath $safePath) -and (Test-Path -LiteralPath $safeScriptPath)) {
     $safeText = Get-Content -LiteralPath $safePath -Raw
-    Require (($safeText -match "agy --sandbox") -and ($safeText -notmatch "dangerously-skip-permissions")) "agy-safe launcher is permission-first." "agy-safe launcher content is unsafe or invalid."
+    $safeScript = Get-Content -LiteralPath $safeScriptPath -Raw
+    Require (($safeText -match "agy-safe\.ps1") -and ($safeScript -match "agy --sandbox") -and
+             ($safeScript -match "dangerously-skip-permissions") -and ($safeScript -match "exit 64")) "Guarded agy-safe launcher present." "agy-safe launcher guard is incomplete."
 } else {
-    Write-Status FAIL "agy-safe launcher is missing."
+    Write-Status FAIL "Guarded agy-safe launcher is missing."
     $failed += "agy-safe missing"
 }
 

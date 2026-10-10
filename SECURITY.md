@@ -21,3 +21,10 @@
 A reference document may be used to infer layout/style conventions: margins, paper size, font, spacing, paragraph indentation, headings, captions, tables, footnotes, page numbering, and bibliography layout.
 
 A generated profile is a **derived formatting profile**, not proof of an institution's official policy. When an official guideline conflicts with a sample document, the official guideline wins.
+
+## One-command CMD trust boundary
+The one-liner downloads a PowerShell bootstrap from the official repository's main branch. A user should inspect the repository and trust its owner before executing it: the bootstrap itself is not individually code-signed or cryptographically pinned by the command.
+
+The bootstrap obtains only the latest published GitHub Release and its SHA256 manifest; both the ZIP and its extracted files are verified before START.cmd runs. A digest checks integrity against the repository's published release but does not replace independent publisher authenticity checks. The bootstrap never requests another person's credentials or silently elevates privileges.
+
+Do not disable SmartScreen, antivirus, or Windows security prompts to run the kit. A user who does not trust the bootstrap may download and verify the ZIP directly from GitHub Releases.

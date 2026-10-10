@@ -49,3 +49,18 @@ Prefer an actionable review table:
 - status after fix.
 
 Never mark an item complete unless the changed manuscript or supporting evidence was actually rechecked.
+
+## Friend-ready review flow
+
+Avoid vague feedback such as "perbaiki pembahasan". Give a **location**, **observed evidence**, **why it matters**, and **specific fix**. Start with the most damaging issues and keep formatting suggestions secondary to scientific validity.
+
+Review in passes:
+1. **Research spine:** title → problem → objectives → research questions/hypotheses → method → results → discussion → conclusions.
+2. **Evidence and integrity:** citations match the actual claims; quotes/pages/DOIs have been checked; statistical or qualitative claims do not exceed the data.
+3. **Consistency:** participants/sample, instruments, concepts, variable names, figures/tables, abbreviations, and references.
+4. **Institutional compliance:** compare directly against supplied guidelines and supervisor notes, including revisions that remain open.
+5. **Document quality:** if editable output is requested and supported, inspect rendered pagination, captions, headings, footnotes, and bibliography.
+
+Use severity **BLOCKER / MAJOR / MINOR**, status **OPEN / FIXED-VERIFIED / NEEDS-SOURCE**, and a small priority queue for next actions. Reserve **FIXED-VERIFIED** for changes actually checked in the resulting artifact. When facts or files are missing, say "cannot verify" rather than awarding a pass.
+
+For dissertations, also examine the claimed original contribution, alternative explanations, and theoretical scope. For theses, scrutinize methodological justification and evidence comparison. For undergraduate skripsi, prioritize feasibility, coherence, and verifiable citations.

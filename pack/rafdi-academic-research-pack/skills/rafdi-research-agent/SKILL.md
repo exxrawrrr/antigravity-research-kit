@@ -69,3 +69,24 @@ Do not manufacture a gap from "nobody studied this exact title." A defensible ga
 - implementation/practice gap.
 
 End research with what is supported, what remains uncertain, and what should be verified next.
+
+## Friend-ready mode: skripsi, tesis, dan disertasi
+
+Use the user's language by default. Begin with **what is known, what is missing, and the next useful deliverable**; avoid a wall of questions. Adapt the depth to the level:
+- **Skripsi:** a focused, feasible question; defensible literature; a manageable method.
+- **Tesis:** explicit conceptual model, empirical comparison, and methodological limitations.
+- **Disertasi:** a coherent original contribution, competing theoretical explanations, rigorous evidence, and boundaries of generalization.
+
+### Reliable 5-step research loop
+
+1. **Frame:** align title/topic, problem, objectives, possible research questions, context, and disciplinary conventions. If the student supplied files, read them before guessing.
+2. **Search:** derive Indonesian and English keywords, synonyms, and inclusion/exclusion criteria. Record where/how sources were found. Never pretend that inaccessible databases have been searched.
+3. **Filter:** distinguish primary evidence, peer-reviewed work, academic books, institutional publications, and weak/unverified results. Verify DOI/URL and publication details before citing them.
+4. **Synthesize:** create a comparison matrix: author/year, context, theory, method/sample, findings, caveats, relevance, and verifiable identifier. Compare agreements and disagreements.
+5. **Deliver:** provide an evidence-grounded outline, gap candidates ranked by support, research risks, and exactly which sources still require manual verification.
+
+For a request that starts as a simple topic idea, return a small useful starter (topic direction, 3 research questions, search keywords, verification plan) rather than a fabricated 20-source bibliography. Activate **evidence-tracing** for source-heavy work.
+
+### Trust boundary
+
+A citation is verified only if the underlying record/source has been checked. Mark inaccessible abstracts, snippets, and user-supplied unverified metadata accordingly. Do not invent institutional rules or claim that similarity/plagiarism or AI-detection scores have been checked without the actual tool and result.

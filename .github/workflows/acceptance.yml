@@ -39,6 +39,18 @@ jobs:
           Write-Host "PS=$($PSVersionTable.PSVersion)"
           winget --version
 
+      - name: Recover disposable runner WinGet source
+        shell: pwsh
+        run: |
+          winget source update --name winget --disable-interactivity
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "WinGet runner source is damaged; resetting only default winget on this disposable runner."
+            winget source reset --name winget --force --disable-interactivity
+            if ($LASTEXITCODE -ne 0) { throw "Unable to reset disposable runner winget source" }
+            winget source update --name winget --disable-interactivity
+            if ($LASTEXITCODE -ne 0) { throw "Unable to refresh disposable runner winget source" }
+          }
+
       - name: Static validation
         shell: pwsh
         run: |
@@ -52,6 +64,18 @@ jobs:
           Get-Content config/packages.json -Raw | ConvertFrom-Json | Out-Null
           Get-Content config/ide.json -Raw | ConvertFrom-Json | Out-Null
           Get-Content pack/rafdi-academic-research-pack/plugin.json -Raw | ConvertFrom-Json | Out-Null
+
+      - name: EXXRAWRRR CMD visual preview
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\GET-EXXRAWRRR.ps1 -Preview
+          if ($LASTEXITCODE -ne 0) { throw "CMD preview failed with exit=$LASTEXITCODE" }
+
+      - name: Verify one-command published release bootstrap
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\GET-EXXRAWRRR.ps1 -DownloadOnly
+          if ($LASTEXITCODE -ne 0) { throw "Published-release bootstrap failed with exit=$LASTEXITCODE" }
 
       - name: Fresh-host install
         shell: pwsh
@@ -72,6 +96,12 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw "Second installer exit=$LASTEXITCODE" }
           & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\installer\verify.ps1
           if ($LASTEXITCODE -ne 0) { throw "Second verifier exit=$LASTEXITCODE" }
+
+      - name: Friends safety and rollback regression
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tests\friends-regression.ps1
+          if ($LASTEXITCODE -ne 0) { throw "Friends regression exit=$LASTEXITCODE" }
 
       - name: Failure-path gate
         shell: pwsh
@@ -114,6 +144,12 @@ jobs:
           $root = Join-Path $dest "Antigravity-Research-Kit-v$version"
           foreach ($launcher in @('START.cmd','INSTALL.bat','STATUS.cmd','VERIFY.bat','REPAIR.bat','ROLLBACK-MANAGED-SETUP.bat')) {
             if (-not (Test-Path (Join-Path $root $launcher))) { throw "$launcher missing from standalone package" }
+          }
+          if (-not (Test-Path (Join-Path $root 'GET-EXXRAWRRR.ps1'))) {
+            throw 'CMD installer bootstrap missing from release ZIP'
+          }
+          if (-not (Test-Path (Join-Path $root 'FRIENDS-START.md'))) {
+            throw 'Beginner guide missing from standalone package'
           }
           if (-not (Test-Path (Join-Path $root 'assets\terminal-preview-final.webp'))) {
             throw 'README terminal preview asset missing from standalone package'

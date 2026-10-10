@@ -14,7 +14,13 @@ jobs:
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          Get-ChildItem installer,release -Recurse -Filter *.ps1 | ForEach-Object {
+          $bootstrap = '.\GET-EXXRAWRRR.ps1'
+          if (-not (Test-Path -LiteralPath $bootstrap)) { throw 'GET-EXXRAWRRR.ps1 is missing.' }
+          $bootstrapTokens = $null
+          $bootstrapErrors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile($bootstrap, [ref]$bootstrapTokens, [ref]$bootstrapErrors) | Out-Null
+          if ($bootstrapErrors.Count) { throw "Bootstrap parser error: $($bootstrapErrors[0].Message)" }
+          Get-ChildItem installer,release,tests -Recurse -Filter *.ps1 | ForEach-Object {
             $tokens = $null
             $errors = $null
             [System.Management.Automation.Language.Parser]::ParseFile($_.FullName, [ref]$tokens, [ref]$errors) | Out-Null
@@ -39,6 +45,8 @@ jobs:
           foreach ($path in $required) {
             if (-not (Test-Path -LiteralPath $path)) { throw "Missing launcher: $path" }
           }
+
+          if (-not (Test-Path -LiteralPath 'FRIENDS-START.md')) { throw 'Beginner guide is missing.' }
 
           $version = (Get-Content .\VERSION -Raw).Trim()
           if ($version -notmatch '^\d+\.\d+\.\d+$') { throw "Invalid VERSION: $version" }
