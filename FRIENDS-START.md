@@ -2,6 +2,18 @@
 
 **Untuk teman-teman yang mau ngerjain skripsi, tesis, atau disertasi tanpa ribet.**
 
+## Alternatif: cukup satu perintah (setelah fitur ini masuk release resmi)
+
+Buka **CMD** atau **PowerShell** di Windows, paste satu baris ini, lalu Enter. Tidak perlu menjalankan sebagai Administrator kecuali instalasi paket resmi memintanya.
+
+```bat
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Join-Path $env:TEMP 'EXXRAWRRR-GET.ps1'; iwr -UseBasicParsing 'https://raw.githubusercontent.com/exxrawrrr/antigravity-research-kit/main/GET-EXXRAWRRR.ps1' -OutFile $p -ErrorAction Stop; & $p"
+```
+
+Perintah ini mengunduh **script bootstrap dari repository milik pembuat kit** ke TEMP, lalu menjalankannya. Bootstrap mengunduh *GitHub Release* terbaru, mencocokkan SHA256 ZIP dan setiap file melalui manifest internal, dan membuka START.cmd. Perintah ini **bukan jaminan script bootstrap tersertifikasi**; pakai hanya bila kamu percaya repo dan alamatnya. Jangan menjalankan script dari salinan situs yang tidak dikenal. Jika CMD memunculkan peringatan Windows Security, periksa publisher/sumber daripada menonaktifkan proteksi.
+
+**Catatan rilis:** One-line setup baru tersedia setelah PR fitur ini masuk `main`; versi ZIP lama tetap menggunakan cara klik `START.cmd` di bawah ini.
+
 ## Cukup 3 langkah
 
 1. Download ZIP dari [Releases](https://github.com/exxrawrrr/antigravity-research-kit/releases/latest). Extract ZIP **semuanya** ke folder biasa.
