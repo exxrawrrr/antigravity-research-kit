@@ -2,7 +2,7 @@
 
 **Untuk teman-teman yang mau ngerjain skripsi, tesis, atau disertasi tanpa ribet.**
 
-## Alternatif: cukup satu perintah (setelah fitur ini masuk release resmi)
+## Cara utama: satu baris CMD, tampilannya maksimal
 
 Buka **CMD** atau **PowerShell** di Windows, paste satu baris ini, lalu Enter. Tidak perlu menjalankan sebagai Administrator kecuali instalasi paket resmi memintanya.
 
@@ -12,9 +12,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Join-Path $env:TEMP '
 
 Perintah ini mengunduh **script bootstrap dari repository milik pembuat kit** ke TEMP, lalu menjalankannya. Bootstrap mengunduh *GitHub Release* terbaru, mencocokkan SHA256 ZIP dan setiap file melalui manifest internal, dan membuka START.cmd. Perintah ini **bukan jaminan script bootstrap tersertifikasi**; pakai hanya bila kamu percaya repo dan alamatnya. Jangan menjalankan script dari salinan situs yang tidak dikenal. Jika CMD memunculkan peringatan Windows Security, periksa publisher/sumber daripada menonaktifkan proteksi.
 
-**Catatan rilis:** One-line setup baru tersedia setelah PR fitur ini masuk `main`; versi ZIP lama tetap menggunakan cara klik `START.cmd` di bawah ini.
+Kalau command gagal karena koneksi, cek internet atau gunakan **cara ZIP** di bawah. Instalasi otomatis dapat memerlukan login Google/Antigravity dan persetujuan sistem, tidak boleh dilewati diam-diam.
 
-## Cukup 3 langkah
+## Cara alternatif: 3 langkah menggunakan ZIP
 
 1. Download ZIP dari [Releases](https://github.com/exxrawrrr/antigravity-research-kit/releases/latest). Extract ZIP **semuanya** ke folder biasa.
 2. Klik dua kali **START.cmd**. Tunggu indikator EXXRAWRRR selesai. Kalau perlu login, login sendiri lewat layar resmi Antigravity/Google. Jangan berikan password atau token kepada siapa pun.
