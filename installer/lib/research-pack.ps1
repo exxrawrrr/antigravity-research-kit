@@ -49,6 +49,11 @@ function Install-RafdiAcademicPack {
     $code = $LASTEXITCODE
     $ErrorActionPreference = $oldPreference
     $installed = Test-RafdiAcademicPackInstalled
+    if ($installed -and ($code -eq 0)) {
+        $stateDir = Join-Path $env:LOCALAPPDATA "Rafdi\AntigravityResearchKit\state"
+        New-Item -ItemType Directory -Force -Path $stateDir | Out-Null
+        Set-Content -LiteralPath (Join-Path $stateDir "academic-pack-installed-by-kit.flag") -Value "Installed by Antigravity Research Kit" -Encoding ASCII
+    }
 
-    return @{ Success = $installed; ExitCode = $code; Output = $output.Trim(); Skipped = $false }
+    return @{ Success = ($installed -and ($code -eq 0)); ExitCode = $code; Output = $output.Trim(); Skipped = $false }
 }
