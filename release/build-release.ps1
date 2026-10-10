@@ -26,6 +26,7 @@ $include = @(
     "ROLLBACK-MANAGED-SETUP.bat",
     "README.md",
     "QUICKSTART.md",
+    "FRIENDS-START.md",
     "SECURITY.md",
     "LICENSE",
     "VERSION",
