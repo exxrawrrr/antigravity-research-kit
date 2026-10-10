@@ -14,6 +14,8 @@ Fokusnya sederhana: install yang perlu, jangan ngerusak setup yang sudah ada, da
 
 Versi packaged terbaru saat ini: **v0.1.2**
 
+Untuk satu perintah CMD/PowerShell (tersedia setelah fitur bootstrap diterbitkan), lihat [FRIENDS-START.md](FRIENDS-START.md). Cara default tetap klik `START.cmd`.
+
 Untuk pemakaian biasa:
 
 1. buka halaman [Releases](https://github.com/exxrawrrr/antigravity-research-kit/releases/latest)
