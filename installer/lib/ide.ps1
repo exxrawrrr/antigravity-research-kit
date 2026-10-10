@@ -186,9 +186,9 @@ function Test-AgySafetyCapabilities {
     $danger = $help -match "(?m)^\s*--dangerously-skip-permissions\s"
 
     return @{
-        Success = ($sandbox -and $danger)
+        Success = $sandbox
         Sandbox = $sandbox
-        PermissionGuard = $danger
+        DangerousFlagAdvertised = $danger
         Output = "sandbox=$sandbox dangerous-skip-flag=$danger"
     }
 }
@@ -198,24 +198,52 @@ function Install-AgySafeLauncher {
 
     $bin = Join-Path $env:LOCALAPPDATA "Rafdi\AntigravityResearchKit\bin"
     $path = Join-Path $bin "agy-safe.cmd"
-    $content = "@echo off`r`nREM Made by Rafdi D. Ulhaq`r`nagy --sandbox %*`r`n"
+    $scriptPath = Join-Path $bin "agy-safe.ps1"
+    $cmdBody = @'
+@echo off
+setlocal DisableDelayedExpansion
+REM Made by Rafdi D. Ulhaq
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0agy-safe.ps1" %*
+exit /b %ERRORLEVEL%
+'@
+    $content = (($cmdBody -split '\r?\n') -join [Environment]::NewLine) + [Environment]::NewLine
+    $script = @'
+# Made by Rafdi D. Ulhaq
+[CmdletBinding()]
+param(
+    [Parameter(ValueFromRemainingArguments = $true)]
+    [string[]]$CliArgs
+)
+$ErrorActionPreference = 'Stop'
+foreach ($arg in $CliArgs) {
+    if ($arg -match '^(?i:--dangerously-skip-permissions)(?:=.*)?$') {
+        [Console]::Error.WriteLine('[BLOCKED] agy-safe refuses dangerous auto-approval.')
+        exit 64
+    }
+}
+& agy --sandbox @CliArgs
+exit $LASTEXITCODE
+'@
 
     if ($DryRun) {
-        return @{ Success = $true; Path = $path; Changed = $false; Output = "DRY-RUN: create agy-safe.cmd" }
+        return @{ Success = $true; Path = $path; Changed = $false; Output = "DRY-RUN: create guarded agy-safe.cmd and agy-safe.ps1" }
     }
 
-    if (Test-Path -LiteralPath $path) {
-        $existing = Get-Content -LiteralPath $path -Raw
-        if ($existing.TrimEnd([char]13,[char]10) -eq $content.TrimEnd([char]13,[char]10)) {
-            return @{ Success = $true; Path = $path; Changed = $false; Output = "Safe CLI launcher already correct" }
-        }
+    $unchanged = (Test-Path -LiteralPath $path) -and (Test-Path -LiteralPath $scriptPath)
+    if ($unchanged) {
+        $unchanged = ((Get-Content -LiteralPath $path -Raw).TrimEnd([char]13,[char]10) -eq $content.TrimEnd([char]13,[char]10)) -and
+                     ((Get-Content -LiteralPath $scriptPath -Raw).TrimEnd([char]13,[char]10) -eq $script.TrimEnd([char]13,[char]10))
+    }
+    if ($unchanged) {
+        return @{ Success = $true; Path = $path; Changed = $false; Output = "Guarded safe launcher already correct" }
     }
 
     New-Item -ItemType Directory -Force -Path $bin | Out-Null
+    Set-Content -LiteralPath $scriptPath -Value $script -Encoding ASCII -NoNewline
     Set-Content -LiteralPath $path -Value $content -Encoding ASCII -NoNewline
-
-    return @{ Success = (Test-Path -LiteralPath $path); Path = $path; Changed = $true; Output = "Safe CLI launcher created" }
+    return @{ Success = ((Test-Path -LiteralPath $path) -and (Test-Path -LiteralPath $scriptPath)); Path = $path; Changed = $true; Output = "Guarded agy-safe launcher created" }
 }
+
 function Set-AgySandboxPersistent {
     param([switch]$DryRun)
 
