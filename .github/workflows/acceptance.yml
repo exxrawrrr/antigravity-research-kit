@@ -145,6 +145,9 @@ jobs:
           foreach ($launcher in @('START.cmd','INSTALL.bat','STATUS.cmd','VERIFY.bat','REPAIR.bat','ROLLBACK-MANAGED-SETUP.bat')) {
             if (-not (Test-Path (Join-Path $root $launcher))) { throw "$launcher missing from standalone package" }
           }
+          if (-not (Test-Path (Join-Path $root 'GET-EXXRAWRRR.ps1'))) {
+            throw 'CMD installer bootstrap missing from release ZIP'
+          }
           if (-not (Test-Path (Join-Path $root 'FRIENDS-START.md'))) {
             throw 'Beginner guide missing from standalone package'
           }
