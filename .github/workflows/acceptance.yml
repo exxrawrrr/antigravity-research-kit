@@ -39,6 +39,18 @@ jobs:
           Write-Host "PS=$($PSVersionTable.PSVersion)"
           winget --version
 
+      - name: Recover disposable runner WinGet source
+        shell: pwsh
+        run: |
+          winget source update --name winget --disable-interactivity
+          if ($LASTEXITCODE -ne 0) {
+            Write-Host "WinGet runner source is damaged; resetting only default winget on this disposable runner."
+            winget source reset --name winget --force --disable-interactivity
+            if ($LASTEXITCODE -ne 0) { throw "Unable to reset disposable runner winget source" }
+            winget source update --name winget --disable-interactivity
+            if ($LASTEXITCODE -ne 0) { throw "Unable to refresh disposable runner winget source" }
+          }
+
       - name: Static validation
         shell: pwsh
         run: |
