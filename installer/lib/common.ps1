@@ -33,6 +33,19 @@ function Install-WingetPackage {
 
     $output = (& winget install --id $Id --exact --silent --accept-package-agreements --accept-source-agreements --disable-interactivity 2>&1 | Out-String)
     $code = $LASTEXITCODE
+
+    # Windows machines sometimes have a missing/stale WinGet source cache.
+    # A regular source update is safe; never reset a user's configured sources automatically.
+    if ($code -eq -1978335217) {
+        $refresh = (& winget source update --name winget --disable-interactivity 2>&1 | Out-String)
+        $refreshCode = $LASTEXITCODE
+        $output += " WinGet source refresh exit=$refreshCode : $refresh"
+        if ($refreshCode -eq 0) {
+            $retry = (& winget install --id $Id --exact --silent --accept-package-agreements --accept-source-agreements --disable-interactivity 2>&1 | Out-String)
+            $code = $LASTEXITCODE
+            $output += " Retry exit=$code : $retry"
+        }
+    }
     return @{ Success = ($code -eq 0); ExitCode = $code; Output = $output.Trim() }
 }
 
