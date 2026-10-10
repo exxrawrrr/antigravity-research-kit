@@ -10,11 +10,22 @@ Fokusnya sederhana: install yang perlu, jangan ngerusak setup yang sudah ada, da
   <img src="assets/terminal-preview-final.webp" alt="Antigravity Research Kit terminal" width="100%">
 </p>
 
-## Cara pakai
+## Cara pakai — cukup 1 baris di CMD
 
-Versi packaged terbaru saat ini: **v0.1.2**
+Buka **CMD biasa** di Windows (nggak perlu Run as administrator), paste baris ini, lalu tekan Enter:
 
-Untuk satu perintah CMD/PowerShell (tersedia setelah fitur bootstrap diterbitkan), lihat [FRIENDS-START.md](FRIENDS-START.md). Cara default tetap klik `START.cmd`.
+```bat
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$p=Join-Path $env:TEMP 'EXXRAWRRR-GET.ps1'; iwr -UseBasicParsing 'https://raw.githubusercontent.com/exxrawrrr/antigravity-research-kit/main/GET-EXXRAWRRR.ps1' -OutFile $p -ErrorAction Stop; & $p"
+```
+
+EXXRAWRRR menampilkan banner besar dengan indikator progres nyata, mengambil ZIP dari [GitHub Releases](https://github.com/exxrawrrr/antigravity-research-kit/releases/latest), mengecek SHA256 dan file bawaan, kemudian membuka installer Antigravity. Login Google/Antigravity tetap dilakukan sendiri bila diminta; tidak ada password yang dipindahkan. **Periksa dulu alamat repository sebelum menjalankan script internet.**
+
+### Alternatif: download ZIP
+
+
+Versi packaged terbaru: **v0.1.3**
+
+Panduan pertama kali pakai dan prompt akademik siap salin: [FRIENDS-START.md](FRIENDS-START.md).
 
 Untuk pemakaian biasa:
 
@@ -92,7 +103,7 @@ Installer dibuat agak konservatif.
 
 ## Release
 
-Stable packaged line saat ini: **v0.1.2**.
+Stable packaged line: **v0.1.3**.
 
 `main` bisa saja punya perubahan yang belum masuk tag release berikutnya. Jadi angka versi di README ini mengikuti archive yang memang sudah dipublish, bukan sekadar isi branch terbaru.
 
