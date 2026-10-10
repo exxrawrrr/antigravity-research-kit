@@ -58,3 +58,16 @@ Handle formatting and structural consistency such as:
 When a style profile exists, reuse it for later chapters in the same project instead of relearning the same layout every time.
 
 Do not copy another document's academic content. Learn and reproduce its formatting system only.
+
+## Friend-ready editing workflow
+
+Make the first response actionable: explain whether the user needs **format only**, **structural cleanup**, or **substantive rewriting**. Choose the narrowest authorized option. For skripsi, tesis, and disertasi, respect differences in campus guidelines and disciplinary conventions.
+
+1. Inventory document files, version, layout restrictions, and the official campus guide (when provided).
+2. Read relevant sections and extract a formatting profile via **document-style-learning**. Flag unknowns; never make up margin/footnote rules.
+3. Create an unchanged recoverable copy before bulk modifications; keep the original untouched where feasible.
+4. Apply edits in small batches: page setup; heading hierarchy; captions/numbering; tables/footnotes; references.
+5. Reopen or re-render the affected pages and check for broken tables, footnotes, floating figures, empty pages, or changed content.
+6. Deliver a concise change log and a list of remaining manual checks. Do not claim 'print-ready' until a final rendered inspection was actually completed.
+
+If the environment cannot open or write the source file, provide precise instructions or an editable copy if supported; do **not** assert that the original document was changed. Never silently replace citation text or research results.
