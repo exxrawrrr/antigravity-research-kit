@@ -65,6 +65,12 @@ jobs:
           Get-Content config/ide.json -Raw | ConvertFrom-Json | Out-Null
           Get-Content pack/rafdi-academic-research-pack/plugin.json -Raw | ConvertFrom-Json | Out-Null
 
+      - name: EXXRAWRRR CMD visual preview
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\GET-EXXRAWRRR.ps1 -Preview
+          if ($LASTEXITCODE -ne 0) { throw "CMD preview failed with exit=$LASTEXITCODE" }
+
       - name: Verify one-command published release bootstrap
         shell: pwsh
         run: |
