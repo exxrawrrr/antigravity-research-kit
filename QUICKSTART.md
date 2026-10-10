@@ -14,6 +14,8 @@ Made by **Rafdi D. Ulhaq** / **@exxrawrrr**
 
 The current `main` branch also provides **`STATUS.cmd`** as a beginner-friendly alias for the same read-only check. It is included by the current release builder and will appear in the next tagged archive.
 
+For a three-step Indonesian guide and ready-to-copy skripsi, tesis, or disertasi prompts, open **[FRIENDS-START.md](FRIENDS-START.md)**. The installer menu also has **[H] Quick Guide**.
+
 ## What the installer does
 
 - Detects existing Antigravity, Antigravity IDE, and Antigravity CLI and skips them when already installed.
