@@ -201,8 +201,18 @@ function Install-AgySafeLauncher {
     $scriptPath = Join-Path $bin "agy-safe.ps1"
     $cmdBody = @'
 @echo off
-setlocal DisableDelayedExpansion
+setlocal EnableExtensions DisableDelayedExpansion
 REM Made by Rafdi D. Ulhaq
+:check
+if "%~1"=="" goto run
+if /I "%~1"=="--dangerously-skip-permissions" goto blocked
+if /I "%~1"=="--dangerously-skip-permissions=true" goto blocked
+shift
+goto check
+:blocked
+echo [BLOCKED] agy-safe refuses dangerous auto-approval.
+exit /b 64
+:run
 powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0agy-safe.ps1" %*
 exit /b %ERRORLEVEL%
 '@
