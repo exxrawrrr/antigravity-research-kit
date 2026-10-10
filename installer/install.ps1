@@ -96,10 +96,20 @@ try {
             }
         } else {
             Write-Status FAIL "$name installation failed with exit code $($result.ExitCode)."
+            if ($result.ExitCode -eq -1978335217) {
+                Write-Status WARN "WinGet source data is missing (0x8A15000F). Try updating App Installer or 'winget source update --name winget', then rerun START.cmd."
+            }
             $failed += $name
         }
 
         Write-ProgressLine -Done $done -Total $packages.Count
+    }
+
+    if ($failed.Count -gt 0) {
+        Write-Status FAIL "Required Antigravity packages are missing. Setup stopped before changing other settings."
+        Log ("Core packages failed: " + ($failed -join ", "))
+        Write-Host "  Log: $LogPath" -ForegroundColor Gray
+        exit 30
     }
 
     $null = Refresh-ProcessPath
