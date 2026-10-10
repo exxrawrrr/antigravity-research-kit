@@ -2,30 +2,98 @@
 # Made by Rafdi D. Ulhaq. Source: https://github.com/exxrawrrr/antigravity-research-kit
 # This downloads only the published GitHub Release (not the mutable main branch ZIP).
 [CmdletBinding()]
-param([switch]$DownloadOnly)
+param([switch]$DownloadOnly, [switch]$Preview)
 
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
+
+
+# The preview is presentation-only. Every real progress state represents a completed gate.
+$script:KitEsc = [char]27
+$script:KitTrueColor = [bool]$env:WT_SESSION
+
+function Ink([string]$Message, [string]$Hex='#E7E1D7', [string]$Fallback='White', [switch]$NoNewline) {
+    if ($script:KitTrueColor) {
+        $v = $Hex.TrimStart('#')
+        $rgb = @([Convert]::ToInt32($v.Substring(0,2),16), [Convert]::ToInt32($v.Substring(2,2),16), [Convert]::ToInt32($v.Substring(4,2),16))
+        $code = "$($script:KitEsc)[38;2;$($rgb[0]);$($rgb[1]);$($rgb[2])m"
+        $reset = "$($script:KitEsc)[0m"
+        if ($NoNewline) { [Console]::Write($code+$Message+$reset) }
+        else { [Console]::WriteLine($code+$Message+$reset) }
+    } else {
+        Write-Host $Message -ForegroundColor $Fallback -NoNewline:$NoNewline
+    }
+}
+
+function Show-Exxrawrrr {
+    $font = @{
+        E = @('11111','1    ','1111 ','1    ','11111')
+        X = @('1   1',' 1 1 ','  1  ',' 1 1 ','1   1')
+        R = @('1111 ','1   1','1111 ','1  1 ','1   1')
+        A = @(' 111 ','1   1','11111','1   1','1   1')
+        W = @('1   1','1   1','1 1 1','11 11','1   1')
+    }
+    $colors = @('#FFD35D','#FFC34A','#F6B83C','#D87938','#99613A')
+    $word = 'EXXRAWRRR'
+    Write-Host ''
+    for($line=0;$line -lt 5;$line++) {
+        $text = '  '
+        foreach($char in $word.ToCharArray()) { $text += $font[[string]$char][$line] + ' ' }
+        Ink -Message ($text.Replace('1',[string][char]0x2588)) -Hex $colors[$line] -Fallback 'Yellow'
+    }
+    Write-Host ''
+    Ink '  ANTIGRAVITY RESEARCH KIT   /   CMD EDITION' '#FFC34A' 'Yellow'
+    Ink '  made by Rafdi D. Ulhaq  |  skripsi - tesis - disertasi' '#AFA79D' 'Gray'
+    Ink '  ----------------------------------------------------------' '#8F5C38' 'DarkYellow'
+    Ink '  GITHUB RELEASE  /  SHA256 LOCK  /  PERMISSION-FIRST' '#7DD3A7' 'Green'
+    Write-Host ''
+}
+
+function Show-Phase([int]$Number, [string]$Title) {
+    $total = 6
+    $done = [Math]::Max(0,$Number-1)
+    $width = 28
+    $filled = [int][Math]::Floor(($done / $total) * $width)
+    $empty = $width - $filled
+    $block = [string][char]0x2588
+    $shade = [string][char]0x2591
+    Ink ("  PHASE {0:D2}/{1:D2}  {2}" -f $Number,$total,$Title.ToUpperInvariant()) '#FFD35D' 'Yellow'
+    Ink ('  [' + ($block * $filled) + ($shade * $empty) + ('] {0,3}%' -f ([int][Math]::Floor(($done/$total)*100)))) '#F6B83C' 'DarkYellow'
+}
+
+function Show-Complete([string]$Detail) {
+    $block = [string][char]0x2588
+    Ink ('  [' + ($block * 28) + '] 100%') '#7DD3A7' 'Green'
+    Ink '  ==========================================================' '#8F5C38' 'DarkYellow'
+    Ink '  EXXRAWRRR READY  /  VERIFIED RELEASE PAYLOAD' '#7DD3A7' 'Green'
+    Ink ('  ' + $Detail) '#E7E1D7' 'White'
+    Ink '  ==========================================================' '#8F5C38' 'DarkYellow'
+}
 
 function Say([string]$Kind,[string]$Message) {
     $color = switch ($Kind) { 'OK' {'Green'} 'FAIL' {'Red'} 'RUN' {'Yellow'} default {'Cyan'} }
     Write-Host ("  [{0}] {1}" -f $Kind,$Message) -ForegroundColor $color
 }
 
-try {
-    Write-Host ''
-    Write-Host '  EXXRAWRRR / ANTIGRAVITY RESEARCH KIT' -ForegroundColor Yellow
-    Write-Host '  Made by Rafdi D. Ulhaq' -ForegroundColor DarkYellow
-    Write-Host '  Official release downloader + SHA256 verification' -ForegroundColor Gray
-    Write-Host ''
+if ($Preview) {
+    Show-Exxrawrrr
+    1..6 | ForEach-Object { Show-Phase $_ (@('Checking Windows','Resolving official release','Downloading verified payload','Locking SHA256 integrity','Validating package files','Installer handoff')[$_-1]) }
+    Show-Complete 'UI preview only - no downloads or changes made'
+    exit 0
+}
 
+try {
+    Show-Exxrawrrr
+    Show-Phase 1 'Checking Windows'
     if ([System.Environment]::OSVersion.Platform -ne [System.PlatformID]::Win32NT) {
         throw 'Only Windows is supported.'
     }
+    Say OK 'Windows detected. Running as current user (no forced admin).'
     $repo = 'exxrawrrr/antigravity-research-kit'
     $api = "https://api.github.com/repos/$repo/releases/latest"
     $headers = @{ 'User-Agent' = 'EXXRAWRRR-Research-Kit-Installer'; 'Accept' = 'application/vnd.github+json' }
 
+    Show-Phase 2 'Resolving official release'
     Say RUN 'Finding the latest published release...'
     $release = Invoke-RestMethod -Uri $api -Headers $headers -TimeoutSec 40
     $tag = [string]$release.tag_name
@@ -49,9 +117,11 @@ try {
     $zip = Join-Path $downloads $expectedZipName
     $checksum = "$zip.sha256"
 
+    Show-Phase 3 "Downloading verified payload"
     Say RUN ("Downloading $tag ZIP and SHA256...")
     Invoke-WebRequest -Uri ([string]$zipAsset.browser_download_url) -OutFile $zip -UseBasicParsing -TimeoutSec 180
     Invoke-WebRequest -Uri ([string]$hashAsset.browser_download_url) -OutFile $checksum -UseBasicParsing -TimeoutSec 40
+    Show-Phase 4 'Locking SHA256 integrity'
     $line = (Get-Content -LiteralPath $checksum -Raw).Trim()
     if ($line -notmatch '^([0-9a-fA-F]{64})\s+(\S+)$') { throw 'Malformed SHA256 file.' }
     $expectedHash = $Matches[1].ToLowerInvariant()
@@ -63,6 +133,7 @@ try {
     }
     Say OK 'Downloaded ZIP SHA256 verified.'
 
+    Show-Phase 5 'Validating package files'
     $stage = Join-Path $releaseHome 'stage'
     if (Test-Path -LiteralPath $stage) { Remove-Item -LiteralPath $stage -Force -Recurse }
     New-Item -ItemType Directory -Force -Path $stage | Out-Null
@@ -89,7 +160,9 @@ try {
     }
     if ($verified -lt 1) { throw 'Empty internal manifest.' }
     Say OK ("Verified $verified bundled files.")
+    Show-Phase 6 "Installer handoff"
     Say OK "Installer ready: $starter"
+    Show-Complete "Verified release: $tag"
 
     if ($DownloadOnly) {
         Say INFO 'Download-only mode. No installation was started.'
