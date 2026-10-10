@@ -11,7 +11,9 @@ if (-not $ConfirmRollback) {
 
 $Root = Split-Path -Parent $PSScriptRoot
 . (Join-Path $PSScriptRoot "lib\ui.ps1")
+. (Join-Path $PSScriptRoot "lib\common.ps1")
 . (Join-Path $PSScriptRoot "lib\research-pack.ps1")
+$null = Refresh-ProcessPath
 
 Write-Banner
 Write-Section "Managed Rollback"
