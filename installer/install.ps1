@@ -181,13 +181,17 @@ try {
     Log ("AGY SAFETY: " + $safety.Output)
     if ($safety.Success) {
         Write-Status OK "agy supports terminal sandbox (--sandbox)."
-        Write-Status OK "Permission prompts stay ON; dangerous auto-approval is never enabled."
+        Write-Status OK "Kit does not enable dangerous auto-approval; actual prompts are controlled by Antigravity."
     } else {
         Write-Status FAIL "Required agy safety capabilities were not verified."
         $failed += "agy safety"
     }
 
-    $sandboxSetting = Set-AgySandboxPersistent -DryRun:$DryRun
+    $sandboxSetting = if ($safety.Success) {
+        Set-AgySandboxPersistent -DryRun:$DryRun
+    } else {
+        @{ Success = $false; Changed = $false; Path = ""; Backup = $null; Output = "Skipped: sandbox capability could not be verified" }
+    }
     Log ("SANDBOX SETTING success={0} path={1} backup={2} output={3}" -f $sandboxSetting.Success, $sandboxSetting.Path, $sandboxSetting.Backup, $sandboxSetting.Output)
     if ($sandboxSetting.Success) {
         if ($DryRun) {
@@ -205,7 +209,11 @@ try {
         $failed += "persistent sandbox"
     }
 
-    $safeLauncher = Install-AgySafeLauncher -DryRun:$DryRun
+    $safeLauncher = if ($safety.Success) {
+        Install-AgySafeLauncher -DryRun:$DryRun
+    } else {
+        @{ Success = $false; Changed = $false; Path = ""; Output = "Skipped: sandbox capability could not be verified" }
+    }
     Log ("SAFE LAUNCHER success={0} path={1} output={2}" -f $safeLauncher.Success, $safeLauncher.Path, $safeLauncher.Output)
     if ($safeLauncher.Success) {
         if ($DryRun) {
