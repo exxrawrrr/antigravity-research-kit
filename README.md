@@ -25,6 +25,8 @@ Untuk pemakaian biasa:
 
 Kalau butuh petunjuk pendek, lihat [QUICKSTART.md](QUICKSTART.md).
 
+Buat pertama kali pakai untuk skripsi/tesis/disertasi, mulai dari **[Panduan 3 langkah + prompt siap pakai](FRIENDS-START.md)**. Tidak perlu paham terminal atau coding.
+
 ## Yang dipasang
 
 Installer saat ini menyiapkan:
