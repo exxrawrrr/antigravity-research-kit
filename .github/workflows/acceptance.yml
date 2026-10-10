@@ -73,6 +73,12 @@ jobs:
           & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\installer\verify.ps1
           if ($LASTEXITCODE -ne 0) { throw "Second verifier exit=$LASTEXITCODE" }
 
+      - name: Friends safety and rollback regression
+        shell: pwsh
+        run: |
+          & powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File .\tests\friends-regression.ps1
+          if ($LASTEXITCODE -ne 0) { throw "Friends regression exit=$LASTEXITCODE" }
+
       - name: Failure-path gate
         shell: pwsh
         run: |
@@ -114,6 +120,9 @@ jobs:
           $root = Join-Path $dest "Antigravity-Research-Kit-v$version"
           foreach ($launcher in @('START.cmd','INSTALL.bat','STATUS.cmd','VERIFY.bat','REPAIR.bat','ROLLBACK-MANAGED-SETUP.bat')) {
             if (-not (Test-Path (Join-Path $root $launcher))) { throw "$launcher missing from standalone package" }
+          }
+          if (-not (Test-Path (Join-Path $root 'FRIENDS-START.md'))) {
+            throw 'Beginner guide missing from standalone package'
           }
           if (-not (Test-Path (Join-Path $root 'assets\terminal-preview-final.webp'))) {
             throw 'README terminal preview asset missing from standalone package'
